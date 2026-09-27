@@ -1,0 +1,12 @@
+PACKAGE: 錢寶中文大冒險 TestFlight Xcode交付包 V17.6
+DATE: 2026-09-27
+PRODUCTION_URL: https://finn-chinese-adventure.vercel.app/
+WEB_RELEASE: V17.6
+BUNDLE_ID: com.stormvision.finnchinese
+MARKETING_VERSION: 1.0
+BUILD_NUMBER: 1
+TEAM_ID: V67X2ZT27D
+TARGET: iOS 15.0+
+DEVICES: iPhone, iPad
+ARCHITECTURE: SwiftUI + WKWebView
+NOTE: App loads the production URL, so future Web content updates normally do not require a new iOS build.

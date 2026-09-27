@@ -1,0 +1,651 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1230"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="錢寶中文大冒險"><link rel="manifest" href="manifest.webmanifest"><title>錢寶中文大冒險 V12</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#09112b;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}button{font:inherit;cursor:pointer;min-height:48px}.app{max-width:1050px;margin:auto;padding:18px}.top,.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.stats{display:flex;gap:7px;flex-wrap:wrap}.pill{background:#ffffff12;padding:8px 12px;border-radius:14px;font-weight:800}.card{background:#202a55;border:1px solid #ffffff1c;border-radius:24px;padding:20px;margin-top:15px}.hero{background:linear-gradient(135deg,#6747f5,#248de8)}.btn{border:0;border-radius:14px;background:#ffd83d;color:#141414;padding:12px 17px;font-weight:900}.sec{border:1px solid #ffffff28;border-radius:13px;background:#ffffff10;color:#fff;padding:10px 14px;font-weight:800}.worldmap{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:16px}.node{background:#ffffff10;border-radius:17px;padding:12px 6px;text-align:center;min-height:105px}.node.on{outline:3px solid #ffd83d}.node.done{background:#1e6a55}.node.lock{opacity:.35}.screen{display:none}.screen.on{display:block}.progress{height:12px;background:#10162e;border-radius:20px;overflow:hidden;margin:12px 0}.progress span{display:block;height:100%;background:#ffd83d}.learn{text-align:center}.pic{font-size:62px}.en{font-size:24px;color:#ffd83d;font-weight:900}.big{font-size:105px;font-weight:900;line-height:1.05}.box{background:#ffffff0b;border-radius:18px;padding:15px;margin:12px auto;max-width:720px}.q{text-align:center;font-size:27px;font-weight:900;margin:17px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:720px;margin:auto}.answers button{min-height:86px;border:2px solid #ffffff1d;border-radius:17px;background:#35416f;color:#fff;font-size:30px;font-weight:900}.arena{height:320px;position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(#2b3c75 0 76%,#46546c 76%)}.fall{position:absolute;top:0;width:105px;min-height:82px;border:4px solid #fff;border-radius:16px;background:#ffd83d;color:#111;font-size:30px;font-weight:900}.sport{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}.sport button{border:0;background:#ffffff0b;color:#fff;border-radius:18px;padding:14px;font-size:44px}.sport span{display:block;font-size:25px;font-weight:900}.tiles,.built{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;min-height:68px;background:#111832;border-radius:16px;padding:13px;margin:12px}.tile{border:0;border-radius:12px;background:#ffd83d;color:#111;padding:11px 15px;font-size:25px;font-weight:900}.boss{text-align:center;font-size:75px}.hp{height:17px;background:#11162d;border-radius:20px;overflow:hidden;max-width:600px;margin:12px auto}.hp span{display:block;height:100%;background:#ff5c70}.msg{text-align:center;min-height:32px;color:#ffe267;font-weight:900}.reward{text-align:center;font-size:75px}@media(max-width:760px){.worldmap{grid-template-columns:repeat(4,1fr)}.big{font-size:86px}.answers{grid-template-columns:1fr 1fr}.fall{width:78px;font-size:23px}}
+.box canvas{cursor:crosshair}#traceChar:before,#traceChar:after{content:"";position:absolute;background:#9993;z-index:1;pointer-events:none}#traceChar:before{left:50%;top:0;bottom:0;width:1px}#traceChar:after{top:50%;left:0;right:0;height:1px}
+.levelup-panel{margin:16px 0 4px;padding:16px;border:1px solid #ffffff24;border-radius:18px;background:#0b1435aa}
+.levelup-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.levelup-title{font-weight:900;font-size:17px}
+.levelup-note{font-size:12px;opacity:.72}
+.difficulty-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.diffbtn{min-height:66px;padding:9px 6px;border-radius:14px;background:#182957;color:#eef3ff;border:1px solid #38518e;font-weight:900}
+.diffbtn small{display:block;font-size:10px;opacity:.72;margin-top:3px}
+.diffbtn.active{background:#ffd83d;color:#101830;border-color:#ffd83d}
+.diffbtn.locked{opacity:.42;cursor:not-allowed}
+.speedbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.speedbar .speedbtn{padding:8px 10px;font-size:12px}.speedbtn.active{background:#ffd83d;color:#101830;border-color:#ffd83d}
+.masteryline{font-size:12px;opacity:.82;margin-top:10px}
+@media(max-width:700px){.difficulty-grid{grid-template-columns:repeat(2,1fr)}.difficulty-grid .diffbtn:last-child{grid-column:1/-1}}
+
+</style><!-- Vercel Web Analytics: basic anonymous traffic only -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head><body><div class="app">
+<div class="top"><div><small>FINN'S CHINESE ADVENTURE · V17.6 HARDER START</small><h1 id="appTitle" style="margin:4px 0">錢寶中文大冒險</h1></div><div class="stats"><div style="display:flex;gap:6px"><button id="zhLang" class="sec">中文</button><button id="enLang" class="sec">English</button></div><div class="pill">⚡ <span id="xp">0</span></div><div class="pill">🪙 <span id="coin">0</span></div><div class="pill">⭐ <span id="star">0</span></div></div></div>
+<section id="home" class="card hero"><div class="row"><div><h2 id="homeTitle">🌱 Beginner Island</h2><p id="homeSub">從認字一路挑戰到造句，最後打 World Boss。</p></div><div style="display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end">
+<button id="restartHome" class="btn" onclick="window.finnRestart()">🌱 重新開始</button>
+<button id="continueHome" class="sec" onclick="window.finnContinue()">▶ 繼續</button>
+<button id="chooseHome" class="sec" onclick="window.openFinnLevelSelect()">🗺 選擇關卡</button>
+</div></div>
+<div class="levelup-panel">
+  <div class="levelup-head">
+    <div>
+      <div id="difficultyTitle" class="levelup-title">🎮 難度 Level 1–5</div>
+      <div id="difficultyNote" class="levelup-note">累積 XP 解鎖更難的區域；題目會越來越多、提示越來越少。</div>
+    </div>
+    <div class="speedbar">
+      <span id="speedLabel" class="levelup-note">🔊 語速</span>
+      <button id="speedSlow" class="sec speedbtn" onclick="window.finnSetSpeech('slow')">慢</button>
+      <button id="speedNormal" class="sec speedbtn" onclick="window.finnSetSpeech('normal')">正常</button>
+      <button id="speedFast" class="sec speedbtn" onclick="window.finnSetSpeech('fast')">快速</button>
+    </div>
+  </div>
+  <div id="difficultyGrid" class="difficulty-grid"></div>
+  <div id="masteryLine" class="masteryline"></div>
+</div>
+<div id="mapNodes" class="worldmap"></div>
+<div id="homeLevelPanel" style="display:none;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px"></div></section>
+<section id="play" class="card" style="display:none"><div class="row"><div><small id="stageLabel"></small><h2 id="stageTitle"></h2></div><div style="display:flex;gap:8px;align-items:center"><span id="playDifficulty" class="pill">LV1</span><span id="playSpeed" class="pill">🔊 NORMAL</span><button id="back" class="sec">← MAP</button></div></div><div class="progress"><span id="bar"></span></div><div id="msg" class="msg"></div>
+<div id="learn" class="screen learn"><div id="pic" class="pic"></div><div id="english" class="en"></div><div>↓</div><div id="mainChinese" class="big"></div><button id="listen" class="sec">🔊 Listen</button><div id="pron"></div><div class="box"><h2 id="detailChinese"></h2><div id="detailEnglish"></div><hr><h2 id="exampleChinese"></h2><div id="exampleEnglish"></div></div><button id="learnGo" class="btn">START CHALLENGE ▶</button></div>
+<div id="choice" class="screen">
+<div id="cq" class="q"></div>
+<div style="text-align:center;margin:0 0 12px"><button id="choiceListen" class="sec" onclick="window.finnReplayPrompt()">🔊 再聽一次</button></div>
+<div id="ca" class="answers"></div></div>
+<div id="falling" class="screen">
+<div id="fq" class="q"></div>
+<div style="text-align:center;margin:0 0 10px"><button id="fallListen" class="sec" onclick="window.finnReplayPrompt()">🔊 再聽一次</button></div>
+<div id="arena" class="arena"></div></div>
+<div id="sport" class="screen">
+<div id="sq" class="q"></div>
+<div style="text-align:center;margin:0 0 10px"><button id="sportListen" class="sec" onclick="window.finnReplayPrompt()">🔊 再聽一次</button></div>
+<div id="sportAns" class="sport"></div></div>
+<div id="sentence" class="screen"><div id="sentenceQ" class="q"></div><div id="built" class="built"></div><div id="tiles" class="tiles"></div><div style="text-align:center"><button id="check" class="btn">CHECK ✓</button></div></div>
+<div id="writing" class="screen">
+<div id="writingQ" class="q"></div>
+<div class="box" style="text-align:center">
+<div id="traceChar" style="position:relative;width:300px;height:300px;margin:auto;border:3px solid #ffffff35;border-radius:18px;background:#fff;color:#111;overflow:hidden">
+<div id="guideChar" style="position:absolute;inset:0;display:grid;place-items:center;font-size:220px;font-weight:900;opacity:.16;pointer-events:none"></div>
+<canvas id="writeCanvas" width="600" height="600" style="width:300px;height:300px;touch-action:none;position:relative;z-index:2"></canvas>
+</div>
+<div style="display:flex;justify-content:center;gap:10px;margin-top:12px;flex-wrap:wrap">
+<button id="clearWrite" class="sec">↻ Clear</button>
+<button id="toggleTrace" class="sec">✍️ FREE WRITE</button>
+<button id="finishWrite" class="btn">DONE ✓</button>
+</div></div></div>
+<div id="boss" class="screen"><div class="boss">🧑‍🚀🐲　VS　🐉🔥</div><div class="hp"><span id="hp"></span></div><div id="bq" class="q"></div><div id="ba" class="answers"></div></div>
+<div id="done" class="screen"><div class="reward">🏆🎁✨</div><h1 id="doneTitle" style="text-align:center"></h1><p id="doneText" style="text-align:center"></p><div style="text-align:center"><button id="next" class="btn">NEXT LEVEL ▶</button></div></div>
+</section></div><script>
+const FINN_WORD_BANK_500=["你好","謝謝","再見","早安","晚安","對不起","沒關係","請問","歡迎","加油","小心","注意","安全","危險","開心","難過","生氣","害怕","緊張","放心","喜歡","希望","相信","幫忙","爸爸","媽媽","父親","母親","哥哥","姐姐","弟弟","妹妹","爺爺","奶奶","家人","家庭","大人","小孩","男生","女生","朋友","同學","老師","學生","客人","大家","自己","別人","學校","教室","課本","作業","功課","考試","上課","下課","放學","學習","練習","認字","寫字","讀書","看書","中文","英文","國語","故事","成語","句子","詞語","名字","問題","答案","今天","昨天","明天","早上","中午","下午","晚上","星期","週末","時間","小時","分鐘","現在","以前","以後","開始","完成","最後","第一","第二","每天","今年","明年","去年","春天","夏天","秋天","冬天","天氣","太陽","月亮","星星","天空","白雲","下雨","下雪","大風","雷聲","閃電","冷天","熱天","晴天","陰天","彩虹","高山","火山","山上","山下","河水","海水","湖水","喝水","開水","大海","河流","小河","湖邊","海邊","土地","石頭","沙子","森林","樹木","樹葉","花朵","小草","竹子","種子","眼睛","耳朵","鼻子","嘴巴","牙齒","頭髮","臉上","雙手","手指","腳下","身體","心裡","肚子","背後","左手","右手","左腳","右腳","健康","生病","醫生","護士","醫院","吃飯","早餐","午餐","晚餐","白飯","麵條","麵包","牛奶","果汁","茶水","雞蛋","魚肉","牛肉","豬肉","青菜","水果","蘋果","香蕉","橘子","葡萄","草莓","西瓜","甜點","小狗","小貓","小鳥","金魚","白兔","老虎","獅子","大象","猴子","黑熊","小鹿","老鼠","白馬","黃牛","山羊","小豬","公雞","鴨子","烏龜","青蛙","蝴蝶","蜜蜂","螞蟻","昆蟲","動物","紅色","橙色","黃色","綠色","藍色","紫色","黑色","白色","灰色","顏色","圓形","方形","三角","直線","彎曲","大小","長短","高低","多少","輕重","快慢","冷熱","新舊","好壞","房子","房間","客廳","廚房","浴室","大門","窗戶","牆壁","地板","天花板","桌子","椅子","沙發","床上","衣櫃","電燈","電視","冰箱","冷氣","樓上","樓下","電梯","樓梯","衣服","褲子","裙子","外套","帽子","鞋子","襪子","雨衣","雨傘","書包","背包","鉛筆","原子筆","彩色筆","尺子","橡皮擦","剪刀","紙張","書本","玩具","公車","火車","捷運","飛機","汽車","卡車","腳踏車","摩托車","車站","機場","馬路","街道","路口","紅燈","綠燈","斑馬線","橋上","旅行","出發","到達","回家","上學","公園","操場","球場","遊樂場","商店","市場","超市","餐廳","銀行","郵局","警察局","消防隊","圖書館","博物館","動物園","城市","鄉下","台灣","台北","世界","國家","足球","籃球","棒球","羽球","網球","游泳","跑步","散步","跳高","跳遠","運動","比賽","球隊","球員","勝利","失敗","第一名","練球","公園玩","玩遊戲","電腦","手機","平板","網路","網站","程式","遊戲","影片","照片","音樂","電影","新聞","科技","機器","人工智慧","按鈕","畫面","下載","上傳","更新","密碼","走路","跳躍","坐下","站立","回來","出去","進來","上去","下來","打開","關上","拿走","放下","找到","看見","聽見","說話","閱讀","書寫","思考","知道","明白","記得","忘記","買東西","賣東西","付錢","找錢","金錢","元錢","一個","一本","一張","一隻","一條","一件","一雙","全部","一半","很多","一些","沒有","還有","每次","一起","簡單","困難","正確","錯誤","認真","努力","勇敢","安靜","熱鬧","乾淨","骯髒","漂亮","可愛","特別","重要","可能","一定","突然","慢慢","馬上","終於","清楚","因為","所以","但是","如果","而且","還是","可以","不能","需要","應該","已經","正在","只有","比較","更加","非常","真的","原來","其實","當然","一樣","不同","生日","快樂","禮物","蛋糕","蠟燭","願望","派對","新年","過年","春節","中秋節","端午節","假日","放假","拍照","紀念","結束","國王","王子","公主","城堡","勇士","英雄","怪物","魔法","寶物","秘密","冒險","任務","地圖","關卡","挑戰","經驗","金幣","力量","魔王","過關","開門","關門","開燈","關燈","開車","坐車","搭車","下車","起床","睡覺","洗臉"];
+
+(()=>{const stages=[
+{type:"char",icon:"字",nameZH:"認字",nameEN:"Characters",data:[["山","MOUNTAIN","⛰️","shān · ㄕㄢ"],["水","WATER","💧","shuǐ · ㄕㄨㄟˇ"],["火","FIRE","🔥","huǒ · ㄏㄨㄛˇ"],["木","WOOD","🌳","mù · ㄇㄨˋ"],["門","DOOR","🚪","mén · ㄇㄣˊ"],["心","HEART","❤️","xīn · ㄒㄧㄣ"]]},
+{type:"word",icon:"詞",nameZH:"名詞／詞語",nameEN:"Words",data:[["高山","HIGH MOUNTAIN","⛰️"],["喝水","DRINK WATER","💧"],["火車","TRAIN","🚂"],["木頭","WOOD","🪵"],["大門","GATE","🚪"],["開心","HAPPY","😊"]]},
+{type:"phrase",icon:"語",nameZH:"短語",nameEN:"Phrases",data:[["坐火車","TAKE THE TRAIN","🚂"],["打開大門","OPEN THE GATE","🚪"],["喝一口水","DRINK SOME WATER","💧"],["看月亮","LOOK AT THE MOON","🌙"],["很開心","VERY HAPPY","😊"]]},
+{type:"idiom",icon:"成",nameZH:"成語",nameEN:"Idioms",data:[["一心一意","WHOLEHEARTEDLY","🎯"],["大驚小怪","MAKE A FUSS","😲"],["一目了然","CLEAR AT A GLANCE","👀"],["七上八下","NERVOUS","💓"],["人山人海","A HUGE CROWD","👥"]]},
+{type:"sentence",icon:"句",nameZH:"造句",nameEN:"Sentences",data:[["我要喝水。","I WANT TO DRINK WATER.","我|要|喝|水|。"],["我坐火車回家。","I TAKE THE TRAIN HOME.","我|坐|火車|回家|。"],["請把大門打開。","PLEASE OPEN THE GATE.","請|把|大門|打開|。"],["今天我很開心。","I AM HAPPY TODAY.","今天|我|很|開心|。"]]},
+{type:"understand",icon:"讀",nameZH:"中文理解",nameEN:"Chinese Only",data:[["前面有火！","FIRE AHEAD!","🔥"],["請打開大門。","OPEN THE GATE.","🚪"],["快去喝水。","GO DRINK WATER.","💧"],["我們坐火車回家。","WE TAKE THE TRAIN HOME.","🚂"]]},
+{type:"boss",icon:"🐉",nameZH:"世界魔王",nameEN:"World Boss",data:[]}
+];stages[0].data=[["一", "ONE", "✨"], ["二", "TWO", "✨"], ["三", "THREE", "✨"], ["四", "FOUR", "✨"], ["五", "FIVE", "✨"], ["六", "SIX", "✨"], ["七", "SEVEN", "✨"], ["八", "EIGHT", "✨"], ["九", "NINE", "✨"], ["十", "TEN", "✨"], ["百", "HUNDRED", "✨"], ["千", "THOUSAND", "✨"], ["人", "PERSON", "✨"], ["大", "BIG", "✨"], ["小", "SMALL", "✨"], ["上", "UP", "✨"], ["下", "DOWN", "✨"], ["中", "MIDDLE", "✨"], ["內", "INSIDE", "✨"], ["外", "OUTSIDE", "✨"], ["前", "FRONT", "✨"], ["後", "BACK", "✨"], ["左", "LEFT", "✨"], ["右", "RIGHT", "✨"], ["東", "EAST", "✨"], ["西", "WEST", "✨"], ["南", "SOUTH", "✨"], ["北", "NORTH", "✨"], ["日", "SUN", "✨"], ["月", "MOON", "✨"], ["年", "YEAR", "✨"], ["天", "SKY", "✨"], ["早", "MORNING", "✨"], ["晚", "NIGHT", "✨"], ["今", "TODAY", "✨"], ["明", "TOMORROW", "✨"], ["昨", "YESTERDAY", "✨"], ["時", "TIME", "✨"], ["山", "MOUNTAIN", "✨"], ["水", "WATER", "✨"], ["火", "FIRE", "✨"], ["木", "WOOD", "✨"], ["土", "EARTH", "✨"], ["石", "STONE", "✨"], ["田", "FIELD", "✨"], ["地", "GROUND", "✨"], ["海", "SEA", "✨"], ["河", "RIVER", "✨"], ["湖", "LAKE", "✨"], ["雨", "RAIN", "✨"], ["風", "WIND", "✨"], ["雲", "CLOUD", "✨"], ["雪", "SNOW", "✨"], ["冰", "ICE", "✨"], ["電", "ELECTRICITY", "✨"], ["光", "LIGHT", "✨"], ["星", "STAR", "✨"], ["空", "SKY", "✨"], ["花", "FLOWER", "✨"], ["草", "GRASS", "✨"], ["樹", "TREE", "✨"], ["林", "WOODS", "✨"], ["果", "FRUIT", "✨"], ["葉", "LEAF", "✨"], ["米", "RICE", "✨"], ["菜", "VEGETABLE", "✨"], ["肉", "MEAT", "✨"], ["蛋", "EGG", "✨"], ["魚", "FISH", "✨"], ["鳥", "BIRD", "✨"], ["狗", "DOG", "✨"], ["貓", "CAT", "✨"], ["牛", "COW", "✨"], ["馬", "HORSE", "✨"], ["羊", "SHEEP", "✨"], ["雞", "CHICKEN", "✨"], ["兔", "RABBIT", "✨"], ["蟲", "BUG", "✨"], ["口", "MOUTH", "✨"], ["手", "HAND", "✨"], ["心", "HEART", "✨"], ["目", "EYE", "✨"], ["眼", "EYE", "✨"], ["耳", "EAR", "✨"], ["頭", "HEAD", "✨"], ["臉", "FACE", "✨"], ["身", "BODY", "✨"], ["腳", "FOOT", "✨"], ["牙", "TOOTH", "✨"], ["鼻", "NOSE", "✨"], ["爸", "DAD", "✨"], ["父", "FATHER", "✨"], ["媽", "MOM", "✨"], ["母", "MOTHER", "✨"], ["哥", "BROTHER", "✨"], ["弟", "BROTHER", "✨"], ["姐", "SISTER", "✨"], ["妹", "SISTER", "✨"], ["家", "HOME", "✨"], ["子", "CHILD", "✨"], ["女", "GIRL", "✨"], ["男", "BOY", "✨"], ["我", "I", "✨"], ["你", "YOU", "✨"], ["他", "HE", "✨"], ["她", "SHE", "✨"], ["誰", "WHO", "✨"], ["這", "THIS", "✨"], ["那", "THAT", "✨"], ["哪", "WHICH", "✨"], ["有", "HAVE", "✨"], ["沒", "NO", "✨"], ["是", "YES", "✨"], ["不", "NOT", "✨"], ["很", "VERY", "✨"], ["太", "TOO", "✨"], ["也", "ALSO", "✨"], ["都", "ALL", "✨"], ["再", "AGAIN", "✨"], ["只", "ONLY", "✨"], ["還", "STILL", "✨"], ["可", "CAN", "✨"], ["能", "ABLE", "✨"], ["要", "WANT", "✨"], ["會", "CAN", "✨"], ["想", "THINK", "✨"], ["愛", "LOVE", "✨"], ["喜", "LIKE", "✨"], ["歡", "JOY", "✨"], ["好", "GOOD", "✨"], ["壞", "BAD", "✨"], ["美", "BEAUTIFUL", "✨"], ["高", "HIGH", "✨"], ["低", "LOW", "✨"], ["長", "LONG", "✨"], ["短", "SHORT", "✨"], ["多", "MANY", "✨"], ["少", "FEW", "✨"], ["快", "FAST", "✨"], ["慢", "SLOW", "✨"], ["新", "NEW", "✨"], ["舊", "OLD", "✨"], ["冷", "COLD", "✨"], ["熱", "HOT", "✨"], ["紅", "RED", "✨"], ["白", "WHITE", "✨"], ["黑", "BLACK", "✨"], ["藍", "BLUE", "✨"], ["綠", "GREEN", "✨"], ["黃", "YELLOW", "✨"], ["吃", "EAT", "✨"], ["喝", "DRINK", "✨"], ["走", "WALK", "✨"], ["跑", "RUN", "✨"], ["跳", "JUMP", "✨"], ["坐", "SIT", "✨"], ["站", "STAND", "✨"], ["看", "LOOK", "✨"], ["聽", "LISTEN", "✨"], ["說", "SPEAK", "✨"], ["讀", "READ", "✨"], ["寫", "WRITE", "✨"], ["畫", "DRAW", "✨"], ["玩", "PLAY", "✨"], ["笑", "LAUGH", "✨"], ["哭", "CRY", "✨"], ["睡", "SLEEP", "✨"], ["醒", "WAKE", "✨"], ["洗", "WASH", "✨"], ["穿", "WEAR", "✨"], ["拿", "TAKE", "✨"], ["放", "PUT", "✨"], ["開", "OPEN", "✨"], ["關", "CLOSE", "✨"], ["來", "COME", "✨"], ["去", "GO", "✨"], ["回", "RETURN", "✨"], ["進", "ENTER", "✨"], ["出", "EXIT", "✨"], ["起", "RISE", "✨"], ["落", "FALL", "✨"], ["停", "STOP", "✨"], ["動", "MOVE", "✨"], ["做", "DO", "✨"], ["用", "USE", "✨"], ["給", "GIVE", "✨"], ["找", "FIND", "✨"], ["等", "WAIT", "✨"], ["問", "ASK", "✨"], ["答", "ANSWER", "✨"], ["教", "TEACH", "✨"], ["學", "LEARN", "✨"], ["記", "REMEMBER", "✨"], ["忘", "FORGET", "✨"], ["知", "KNOW", "✨"], ["懂", "UNDERSTAND", "✨"], ["猜", "GUESS", "✨"], ["選", "CHOOSE", "✨"], ["比", "COMPARE", "✨"], ["數", "COUNT", "✨"], ["算", "CALCULATE", "✨"], ["買", "BUY", "✨"], ["賣", "SELL", "✨"], ["送", "SEND", "✨"], ["借", "BORROW", "✨"], ["帶", "BRING", "✨"], ["跟", "WITH", "✨"], ["幫", "HELP", "✨"], ["請", "PLEASE", "✨"], ["謝", "THANK", "✨"], ["對", "CORRECT", "✨"], ["錯", "WRONG", "✨"], ["真", "TRUE", "✨"], ["假", "FALSE", "✨"], ["同", "SAME", "✨"], ["別", "OTHER", "✨"], ["每", "EVERY", "✨"], ["各", "EACH", "✨"], ["自", "SELF", "✨"], ["己", "SELF", "✨"], ["校", "SCHOOL", "✨"], ["班", "CLASS", "✨"], ["級", "GRADE", "✨"], ["課", "LESSON", "✨"], ["書", "BOOK", "✨"], ["本", "BOOK", "✨"], ["字", "CHARACTER", "✨"], ["詞", "WORD", "✨"], ["句", "SENTENCE", "✨"], ["文", "LANGUAGE", "✨"], ["筆", "PEN", "✨"], ["紙", "PAPER", "✨"], ["桌", "TABLE", "✨"], ["椅", "CHAIR", "✨"], ["包", "BAG", "✨"], ["尺", "RULER", "✨"], ["題", "QUESTION", "✨"], ["考", "TEST", "✨"], ["試", "TRY", "✨"], ["名", "NAME", "✨"], ["師", "TEACHER", "✨"], ["生", "STUDENT", "✨"], ["友", "FRIEND", "✨"], ["朋", "FRIEND", "✨"], ["房", "ROOM", "✨"], ["屋", "HOUSE", "✨"], ["床", "BED", "✨"], ["窗", "WINDOW", "✨"], ["牆", "WALL", "✨"], ["燈", "LAMP", "✨"], ["車", "CAR", "✨"], ["路", "ROAD", "✨"], ["街", "STREET", "✨"], ["橋", "BRIDGE", "✨"], ["店", "SHOP", "✨"]];stages[1].data=[["今天", "TODAY", "📅"], ["明天", "TOMORROW", "🌅"], ["昨天", "YESTERDAY", "↩️"], ["學校", "SCHOOL", "🏫"], ["朋友", "FRIEND", "🤝"], ["老師", "TEACHER", "🧑‍🏫"], ["同學", "CLASSMATE", "🧒"], ["爸爸", "DAD", "👨"], ["媽媽", "MOM", "👩"], ["回家", "GO HOME", "🏠"], ["火車", "TRAIN", "🚂"], ["汽車", "CAR", "🚗"], ["飛機", "AIRPLANE", "✈️"], ["車站", "STATION", "🚉"], ["公園", "PARK", "🌳"], ["商店", "SHOP", "🏪"], ["醫院", "HOSPITAL", "🏥"], ["喝水", "DRINK WATER", "💧"], ["吃飯", "EAT A MEAL", "🍚"], ["早餐", "BREAKFAST", "🥣"], ["午餐", "LUNCH", "🍱"], ["晚餐", "DINNER", "🍽️"], ["高山", "HIGH MOUNTAIN", "⛰️"], ["大門", "GATE", "🚪"], ["開心", "HAPPY", "😊"], ["小狗", "DOG", "🐶"], ["小貓", "CAT", "🐱"], ["下雨", "RAINING", "🌧️"], ["白雲", "WHITE CLOUD", "☁️"], ["紅花", "RED FLOWER", "🌹"], ["看書", "READ A BOOK", "📖"], ["寫字", "WRITE", "✍️"], ["跑步", "RUN", "🏃"], ["走路", "WALK", "🚶"], ["說話", "SPEAK", "💬"], ["玩具", "TOY", "🧸"], ["房間", "ROOM", "🛏️"], ["手機", "PHONE", "📱"], ["電腦", "COMPUTER", "💻"], ["網路", "INTERNET", "🌐"], ["遊戲", "GAME", "🎮"], ["生日", "BIRTHDAY", "🎂"], ["禮物", "GIFT", "🎁"], ["春天", "SPRING", "🌸"], ["夏天", "SUMMER", "☀️"], ["秋天", "AUTUMN", "🍂"], ["冬天", "WINTER", "❄️"], ["天氣", "WEATHER", "🌤️"], ["世界", "WORLD", "🌏"], ["城市", "CITY", "🏙️"], ["森林", "FOREST", "🌲"], ["海洋", "OCEAN", "🌊"], ["動物", "ANIMAL", "🐾"], ["植物", "PLANT", "🌱"], ["故事", "STORY", "📖"], ["方法", "METHOD", "🧩"], ["問題", "PROBLEM", "❓"], ["答案", "ANSWER", "💬"], ["開始", "START", "▶️"], ["完成", "COMPLETE", "🏁"], ["成功", "SUCCESS", "🏆"], ["希望", "HOPE", "🌟"], ["勇氣", "COURAGE", "🦁"], ["安全", "SAFE", "🛡️"], ["努力", "WORK HARD", "💪"], ["進步", "IMPROVE", "📈"]];stages[2].data=[["我要喝水", "I WANT TO DRINK WATER", "💧"], ["我要吃飯", "I WANT TO EAT", "🍚"], ["一起回家", "GO HOME TOGETHER", "🏠"], ["坐火車", "TAKE THE TRAIN", "🚂"], ["打開大門", "OPEN THE GATE", "🚪"], ["關上大門", "CLOSE THE GATE", "🔒"], ["去學校", "GO TO SCHOOL", "🏫"], ["看一本書", "READ A BOOK", "📖"], ["寫中文字", "WRITE CHINESE", "✍️"], ["和朋友玩", "PLAY WITH FRIENDS", "🎮"], ["今天下雨", "IT IS RAINING TODAY", "🌧️"], ["認真學習", "STUDY CAREFULLY", "📚"], ["努力練習", "PRACTICE HARD", "💪"], ["完成任務", "COMPLETE THE MISSION", "🏁"], ["找到答案", "FIND THE ANSWER", "🔎"], ["注意安全", "STAY SAFE", "🛡️"], ["一起冒險", "ADVENTURE TOGETHER", "🗺️"]];stages[3].data=[["一心一意", "WHOLEHEARTEDLY", "🎯"], ["大驚小怪", "MAKE A FUSS", "😲"], ["一目了然", "CLEAR AT A GLANCE", "👀"], ["七上八下", "NERVOUS", "💓"], ["人山人海", "A HUGE CROWD", "👥"], ["十全十美", "PERFECT", "⭐"], ["自言自語", "TALK TO ONESELF", "💬"], ["一五一十", "IN FULL DETAIL", "🔢"], ["三心二意", "HALF-HEARTED", "🤔"], ["手忙腳亂", "IN A FLURRY", "😵"], ["開門見山", "GET TO THE POINT", "🚪"], ["大同小異", "MOSTLY THE SAME", "🟰"], ["四面八方", "ALL DIRECTIONS", "🧭"], ["自由自在", "FREE AND EASY", "🕊️"]];window.FINN_RESERVE=["萬", "秒", "氣", "根", "種", "植", "農", "工", "作", "業", "商", "員", "警", "察", "消", "防", "軍", "隊", "醫", "藥", "院", "健", "康", "安", "全", "危", "險", "樂", "怕", "難", "易", "忙", "累", "勇", "敢", "強", "弱", "重", "輕", "正", "反", "先", "始", "終", "成", "功", "失", "敗", "因", "理", "由", "法", "方", "式", "解", "決", "定", "擇", "機", "希", "望", "夢", "故", "事", "情", "況", "意", "思", "感", "覺", "經", "驗", "世", "界", "然", "環", "境", "保", "護", "清", "潔", "髒", "垃", "圾", "收", "拾", "春", "夏", "秋", "冬", "晴", "陰", "雷", "颱", "暖", "涼", "季", "節", "飯", "麵", "湯", "茶", "奶", "糖", "鹽", "甜", "酸", "苦", "香", "飽", "餓", "杯", "碗", "盤", "刀", "叉", "衣", "服", "鞋", "帽", "襪", "褲", "裙", "錢", "元", "塊", "價", "物", "球", "籃", "足", "泳", "游", "船", "飛", "汽", "旅", "行", "遠", "近", "直", "轉", "過", "到", "離", "城", "市", "村", "鄉", "園", "樓", "梯", "公", "私", "國", "場", "向", "顏", "色", "聲", "音", "歌", "唱", "舞", "蹈", "影", "照", "片", "腦", "網", "遊", "戲", "科", "技", "語", "英", "閱", "圖", "體", "育", "社", "歷", "史", "化", "陽", "亮", "宇", "宙", "昆", "森", "洋", "流", "泊", "谷", "平", "原", "島", "嶼", "溫", "度", "間", "期", "晨", "午", "餐", "禮", "端", "老", "室", "操", "館", "鉛", "橡", "盒", "彩", "案", "練", "習", "複", "步", "努", "力", "認", "專", "注", "憶", "發", "現", "觀", "較", "分", "類", "順", "序", "結", "束", "完", "準", "備", "需", "應", "該", "如", "為", "所", "以", "但", "已", "在", "候", "活", "庭", "兄", "孩", "齡", "士", "品", "運", "休", "息", "刷", "澡", "客", "廳", "廚"];const WORD800=["你好", "謝謝", "再見", "早安", "晚安", "對不起", "沒關係", "請問", "歡迎", "加油", "小心", "注意", "安全", "危險", "開心", "難過", "生氣", "害怕", "緊張", "放心", "喜歡", "希望", "相信", "幫忙", "爸爸", "媽媽", "父親", "母親", "哥哥", "姐姐", "弟弟", "妹妹", "爺爺", "奶奶", "家人", "家庭", "大人", "小孩", "男生", "女生", "朋友", "同學", "老師", "學生", "客人", "大家", "自己", "別人", "學校", "教室", "課本", "作業", "功課", "考試", "上課", "下課", "放學", "學習", "練習", "認字", "寫字", "讀書", "看書", "中文", "英文", "國語", "故事", "成語", "句子", "詞語", "名字", "問題", "答案", "今天", "昨天", "明天", "早上", "中午", "下午", "晚上", "星期", "週末", "時間", "小時", "分鐘", "現在", "以前", "以後", "開始", "完成", "最後", "第一", "第二", "每天", "今年", "明年", "去年", "春天", "夏天", "秋天", "冬天", "天氣", "太陽", "月亮", "星星", "天空", "白雲", "下雨", "下雪", "大風", "雷聲", "閃電", "冷天", "熱天", "晴天", "陰天", "彩虹", "高山", "火山", "山上", "山下", "河水", "海水", "湖水", "喝水", "開水", "大海", "河流", "小河", "湖邊", "海邊", "土地", "石頭", "沙子", "森林", "樹木", "樹葉", "花朵", "小草", "竹子", "種子", "眼睛", "耳朵", "鼻子", "嘴巴", "牙齒", "頭髮", "臉上", "雙手", "手指", "腳下", "身體", "心裡", "肚子", "背後", "左手", "右手", "左腳", "右腳", "健康", "生病", "醫生", "護士", "醫院", "吃飯", "早餐", "午餐", "晚餐", "白飯", "麵條", "麵包", "牛奶", "果汁", "茶水", "雞蛋", "魚肉", "牛肉", "豬肉", "青菜", "水果", "蘋果", "香蕉", "橘子", "葡萄", "草莓", "西瓜", "甜點", "小狗", "小貓", "小鳥", "金魚", "白兔", "老虎", "獅子", "大象", "猴子", "黑熊", "小鹿", "老鼠", "白馬", "黃牛", "山羊", "小豬", "公雞", "鴨子", "烏龜", "青蛙", "蝴蝶", "蜜蜂", "螞蟻", "昆蟲", "動物", "紅色", "橙色", "黃色", "綠色", "藍色", "紫色", "黑色", "白色", "灰色", "顏色", "圓形", "方形", "三角", "直線", "彎曲", "大小", "長短", "高低", "多少", "輕重", "快慢", "冷熱", "新舊", "好壞", "房子", "房間", "客廳", "廚房", "浴室", "大門", "窗戶", "牆壁", "地板", "天花板", "桌子", "椅子", "沙發", "床上", "衣櫃", "電燈", "電視", "冰箱", "冷氣", "樓上", "樓下", "電梯", "樓梯", "衣服", "褲子", "裙子", "外套", "帽子", "鞋子", "襪子", "雨衣", "雨傘", "書包", "背包", "鉛筆", "原子筆", "彩色筆", "尺子", "橡皮擦", "剪刀", "紙張", "書本", "玩具", "公車", "火車", "捷運", "飛機", "汽車", "卡車", "腳踏車", "摩托車", "車站", "機場", "馬路", "街道", "路口", "紅燈", "綠燈", "斑馬線", "橋上", "旅行", "出發", "到達", "回家", "上學", "公園", "操場", "球場", "遊樂場", "商店", "市場", "超市", "餐廳", "銀行", "郵局", "警察局", "消防隊", "圖書館", "博物館", "動物園", "城市", "鄉下", "台灣", "台北", "世界", "國家", "足球", "籃球", "棒球", "羽球", "網球", "游泳", "跑步", "散步", "跳高", "跳遠", "運動", "比賽", "球隊", "球員", "勝利", "失敗", "第一名", "練球", "公園玩", "玩遊戲", "電腦", "手機", "平板", "網路", "網站", "程式", "遊戲", "影片", "照片", "音樂", "電影", "新聞", "科技", "機器", "人工智慧", "按鈕", "畫面", "下載", "上傳", "更新", "密碼", "走路", "跳躍", "坐下", "站立", "回來", "出去", "進來", "上去", "下來", "打開", "關上", "拿走", "放下", "找到", "看見", "聽見", "說話", "閱讀", "書寫", "思考", "知道", "明白", "記得", "忘記", "買東西", "賣東西", "付錢", "找錢", "金錢", "元錢", "一個", "一本", "一張", "一隻", "一條", "一件", "一雙", "全部", "一半", "很多", "一些", "沒有", "還有", "每次", "一起", "簡單", "困難", "正確", "錯誤", "認真", "努力", "勇敢", "安靜", "熱鬧", "乾淨", "骯髒", "漂亮", "可愛", "特別", "重要", "可能", "一定", "突然", "慢慢", "馬上", "終於", "清楚", "因為", "所以", "但是", "如果", "而且", "還是", "可以", "不能", "需要", "應該", "已經", "正在", "只有", "比較", "更加", "非常", "真的", "原來", "其實", "當然", "一樣", "不同", "生日", "快樂", "禮物", "蛋糕", "蠟燭", "願望", "派對", "新年", "過年", "春節", "中秋節", "端午節", "假日", "放假", "拍照", "紀念", "結束", "國王", "王子", "公主", "城堡", "勇士", "英雄", "怪物", "魔法", "寶物", "秘密", "冒險", "任務", "地圖", "關卡", "挑戰", "經驗", "金幣", "力量", "魔王", "過關", "開門", "關門", "開燈", "關燈", "開車", "坐車", "搭車", "下車", "起床", "睡覺", "洗臉", "自然", "科學", "社會", "數學", "國文", "課程", "科目", "單元", "段落", "文章", "作文", "日記", "閱讀理解", "生字", "注音", "部首", "字典", "詞典", "資料", "重點", "筆記", "複習", "預習", "討論", "發表", "報告", "分組", "合作", "實驗", "觀察", "分類", "整理", "記錄", "測量", "計算", "推理", "判斷", "解釋", "說明", "原因", "結果", "過程", "步驟", "方法", "發現", "研究", "生態", "環境", "保護環境", "資源", "回收", "污染", "水源", "土壤", "溫度", "濕度", "氣候", "颱風", "地震", "災害", "防災", "緊急", "避難", "距離", "位置", "方位", "海岸", "島嶼", "平原", "盆地", "山脈", "河川", "人口", "社區", "鄰居", "公共場所", "公共設施", "交通規則", "交通安全", "行人", "乘客", "月台", "文化", "傳統", "習俗", "節慶", "歷史", "古代", "現代", "未來", "祖先", "建築", "古蹟", "政府", "市民", "法律", "權利", "責任", "公平", "尊重", "禮貌", "誠實", "守信", "分享", "關心", "合作精神", "團隊", "目標", "計畫", "決定", "機會", "解決問題", "嘗試", "進步", "改進", "檢查", "修正", "完成度", "專心", "注意力", "耐心", "細心", "信心", "勇氣", "情緒", "感受", "興奮", "失望", "擔心", "驚訝", "驕傲", "滿意", "感謝", "抱歉", "原諒", "鼓勵", "同意", "反對", "意見", "想法", "主意", "理由", "建議", "提問", "對話", "溝通", "表達", "描述", "介紹", "通知", "資訊", "新聞報導", "標題", "內容", "圖表", "表格", "數據", "數量", "比例", "百分比", "加法", "減法", "乘法", "除法", "分數", "小數", "公分", "公尺", "公里", "公克", "公斤", "容量", "面積", "周長", "角度", "時間表", "時刻", "日期", "月份", "年份", "世紀", "順序", "規律", "對稱", "能源", "電力", "電池", "燈泡", "磁鐵", "光線", "影子", "熱能", "水蒸氣", "物質", "材料", "固體", "液體", "氣體", "溶解", "蒸發", "凝結", "發芽", "根部", "花粉", "果實", "農作物", "鳥類", "魚類", "哺乳類", "兩棲類", "爬蟲類", "食物鏈", "棲息地", "生物", "生命", "營養", "衛生", "細菌", "病毒", "感冒", "發燒", "傷口", "藥物", "身高", "體重", "呼吸", "心跳", "肌肉", "骨頭", "關節", "家庭作業", "家事", "打掃", "整理房間", "購物", "清單", "價格", "找零", "零用錢", "儲蓄", "花費", "預算", "便宜", "昂貴", "商品", "顧客", "收據", "發票", "圖書", "借書", "還書", "書架", "作者", "讀者", "目錄", "封面", "章節", "主角", "配角", "故事背景", "故事情節", "結局", "事件", "變化", "轉折", "線索", "推測", "想像", "創作", "科幻", "神話", "傳說", "寓言", "童話", "詩歌", "朗讀", "背誦", "網路安全", "個人資料", "隱私", "搜尋", "引擎", "網頁", "連結", "檔案", "資料夾", "儲存", "刪除", "編輯", "複製", "貼上", "鍵盤", "滑鼠", "螢幕", "程式設計", "機器人", "電子郵件", "視訊", "數位", "科技生活"];
+const V17={
+  difficultyThresholds:[0,100,300,650,1100],
+  difficultyNamesZH:["新手島","詞語森林","冒險城市","成語神殿","中文王國"],
+  difficultyNamesEN:["Beginner Island","Word Forest","Adventure City","Idiom Temple","Chinese Kingdom"],
+  rounds:[12,15,18,21,24],
+  charCaps:[60,110,170,220,255],
+  wordCaps:[100,100,150,200,250],
+  wrongOptions:[3,3,4,4,5],
+  fallMs:[5600,5000,4400,3900,3400]
+};
+const ADV_PHRASES=[["認真完成作業", "FINISH HOMEWORK CAREFULLY", "📝"], ["仔細觀察植物", "OBSERVE PLANTS CAREFULLY", "🌱"], ["一起討論問題", "DISCUSS THE PROBLEM TOGETHER", "💬"], ["整理重要資料", "ORGANIZE IMPORTANT INFORMATION", "📚"], ["遵守交通規則", "FOLLOW TRAFFIC RULES", "🚦"], ["保護自然環境", "PROTECT THE ENVIRONMENT", "🌏"], ["勇敢面對挑戰", "FACE CHALLENGES BRAVELY", "💪"], ["耐心等待結果", "WAIT PATIENTLY", "⏳"], ["清楚表達想法", "EXPRESS IDEAS CLEARLY", "🗣️"], ["比較不同方法", "COMPARE DIFFERENT METHODS", "🔎"], ["記錄實驗結果", "RECORD EXPERIMENT RESULTS", "🧪"], ["閱讀完整文章", "READ THE FULL ARTICLE", "📖"], ["解決生活問題", "SOLVE DAILY PROBLEMS", "🧩"], ["安排旅行計畫", "PLAN A TRIP", "🗺️"], ["尊重別人意見", "RESPECT OTHERS' OPINIONS", "🤝"], ["保持良好習慣", "KEEP GOOD HABITS", "✅"], ["注意網路安全", "PAY ATTENTION TO ONLINE SAFETY", "🔐"], ["學習新的知識", "LEARN NEW KNOWLEDGE", "💡"], ["觀察天氣變化", "OBSERVE WEATHER CHANGES", "🌦️"], ["完成分組報告", "COMPLETE THE GROUP REPORT", "📊"], ["檢查錯誤答案", "CHECK WRONG ANSWERS", "🔍"], ["練習閱讀理解", "PRACTICE READING COMPREHENSION", "📘"], ["思考事情原因", "THINK ABOUT THE CAUSE", "🧠"], ["說明事情經過", "EXPLAIN WHAT HAPPENED", "🧾"], ["找出文章重點", "FIND THE MAIN POINT", "🎯"], ["選擇正確方法", "CHOOSE THE CORRECT METHOD", "✅"], ["根據線索推理", "REASON FROM CLUES", "🕵️"], ["合作完成任務", "WORK TOGETHER", "🤝"], ["理解不同觀點", "UNDERSTAND DIFFERENT VIEWS", "🧠"], ["學會管理時間", "MANAGE TIME", "⏰"], ["推測接下來發展", "PREDICT WHAT HAPPENS NEXT", "🔮"], ["準備明天課程", "PREPARE FOR CLASS", "🎒"], ["整理文章段落", "ORGANIZE PARAGRAPHS", "📄"], ["比較不同結果", "COMPARE RESULTS", "⚖️"], ["找出錯誤原因", "FIND THE CAUSE OF ERROR", "🧩"], ["修改不完整答案", "FIX AN INCOMPLETE ANSWER", "✏️"], ["分析題目條件", "ANALYZE QUESTION CONDITIONS", "🔬"], ["說明自己的理由", "EXPLAIN YOUR REASON", "💬"], ["判斷資料是否正確", "JUDGE WHETHER DATA IS CORRECT", "📋"], ["整理故事發展順序", "ORDER THE STORY EVENTS", "📚"]];
+const ADV_IDIOMS=[["井井有條", "WELL ORGANIZED", "🗂️"], ["半途而廢", "GIVE UP HALFWAY", "🛑"], ["全神貫注", "FULLY CONCENTRATED", "🎯"], ["同心協力", "WORK TOGETHER", "🤝"], ["異口同聲", "SAY THE SAME THING", "🗣️"], ["不慌不忙", "CALM AND UNHURRIED", "😌"], ["東張西望", "LOOK AROUND", "👀"], ["目不轉睛", "STARE WITHOUT LOOKING AWAY", "👁️"], ["大功告成", "MISSION ACCOMPLISHED", "🏆"], ["千方百計", "TRY EVERY WAY", "🧠"], ["一舉兩得", "TWO BENEFITS AT ONCE", "✨"], ["迫不及待", "CAN'T WAIT", "⏩"], ["恍然大悟", "SUDDENLY UNDERSTAND", "💡"], ["左思右想", "THINK AGAIN AND AGAIN", "🤔"], ["大同小異", "MOSTLY THE SAME", "⚖️"], ["不知不覺", "WITHOUT REALIZING", "🌙"], ["四面八方", "FROM ALL DIRECTIONS", "🧭"], ["五花八門", "ALL KINDS", "🎨"], ["一清二楚", "VERY CLEAR", "🔎"], ["手忙腳亂", "IN A FLUSTER", "😵"], ["小心翼翼", "VERY CAREFULLY", "🪶"], ["自相矛盾", "CONTRADICT ONESELF", "⚔️"], ["熟能生巧", "PRACTICE MAKES PERFECT", "🛠️"], ["實事求是", "SEEK TRUTH FROM FACTS", "📚"], ["堅持不懈", "PERSIST", "💪"], ["循序漸進", "STEP BY STEP", "📈"], ["聚精會神", "CONCENTRATE", "🧠"], ["舉一反三", "LEARN BY ANALOGY", "🔁"], ["一絲不苟", "VERY CAREFUL", "🧵"], ["按部就班", "FOLLOW STEPS", "📋"], ["腳踏實地", "DOWN TO EARTH", "👣"], ["日積月累", "ACCUMULATE OVER TIME", "📚"], ["溫故知新", "REVIEW TO LEARN", "🔄"], ["專心致志", "FOCUS INTENTLY", "🎯"], ["持之以恆", "PERSIST CONSISTENTLY", "⏳"], ["百折不撓", "NEVER GIVE UP", "💪"], ["精益求精", "KEEP IMPROVING", "✨"], ["融會貫通", "FULLY UNDERSTAND", "💡"], ["迎刃而解", "SOLVED EASILY", "🗡️"], ["水到渠成", "SUCCESS COMES NATURALLY", "💧"]];
+const ADV_SENTENCES=[["今天放學後，我先完成作業，再和同學去公園打球。", "AFTER SCHOOL, I FINISHED HOMEWORK BEFORE PLAYING BALL.", "今天放學後，|我先完成作業，|再和同學|去公園打球。"], ["因為外面突然下起大雨，所以我們決定把戶外活動改到室內。", "BECAUSE IT RAINED, WE MOVED THE ACTIVITY INDOORS.", "因為外面突然下起大雨，|所以我們決定|把戶外活動|改到室內。"], ["老師提醒我們閱讀文章時，要先找出每一段的重點。", "FIND EACH PARAGRAPH'S MAIN POINT.", "老師提醒我們|閱讀文章時，|要先找出|每一段的重點。"], ["我仔細檢查答案以後，才發現自己把題目的意思看錯了。", "I REALIZED I MISREAD THE QUESTION.", "我仔細檢查答案以後，|才發現自己|把題目的意思|看錯了。"], ["如果遇到不會的生字，可以先看上下文，再查字典確認。", "USE CONTEXT THEN CHECK A DICTIONARY.", "如果遇到不會的生字，|可以先看上下文，|再查字典|確認。"], ["雖然這次比賽沒有得第一名，但是大家都學到了很多經驗。", "WE DIDN'T WIN, BUT LEARNED A LOT.", "雖然這次比賽|沒有得第一名，|但是大家都|學到了很多經驗。"], ["我們分組討論以後，把不同的想法整理成一份完整的報告。", "WE ORGANIZED OUR IDEAS INTO A REPORT.", "我們分組討論以後，|把不同的想法|整理成一份|完整的報告。"], ["只要每天固定練習一點點，原本覺得困難的內容也會慢慢變簡單。", "DAILY PRACTICE MAKES HARD THINGS EASIER.", "只要每天固定|練習一點點，|原本覺得困難的內容|也會慢慢變簡單。"], ["參觀博物館以前，我先上網查資料，了解展覽的主題和背景。", "I RESEARCHED THE EXHIBITION FIRST.", "參觀博物館以前，|我先上網查資料，|了解展覽的主題|和背景。"], ["看到同學需要幫忙時，我主動過去問他是不是遇到了困難。", "I ASKED A CLASSMATE IF HE NEEDED HELP.", "看到同學需要幫忙時，|我主動過去問他|是不是遇到了|困難。"], ["閱讀新聞時不能只看標題，也要了解完整內容和資料來源。", "DON'T ONLY READ THE HEADLINE.", "閱讀新聞時|不能只看標題，|也要了解完整內容|和資料來源。"], ["即使第一次沒有成功，只要找出原因並修改方法，下一次就可能做得更好。", "FIND THE CAUSE AND IMPROVE THE METHOD.", "即使第一次沒有成功，|只要找出原因|並修改方法，|下一次就可能做得更好。"], ["我們比較兩張地圖後，發現新的道路讓到學校的距離縮短了。", "THE NEW ROAD SHORTENED THE DISTANCE.", "我們比較兩張地圖後，|發現新的道路|讓到學校的距離|縮短了。"], ["媽媽請我列出購物清單，並估算全部商品大約需要多少錢。", "ESTIMATE THE TOTAL COST.", "媽媽請我|列出購物清單，|並估算全部商品|大約需要多少錢。"], ["這次小組合作很順利，因為每個人都清楚知道自己的工作和時間。", "EVERYONE KNEW THEIR TASK AND TIME.", "這次小組合作|很順利，|因為每個人都清楚知道|自己的工作和時間。"], ["我把文章讀了第二次，才真正理解作者想表達的主要意思。", "I UNDERSTOOD THE AUTHOR'S MAIN IDEA.", "我把文章|讀了第二次，|才真正理解|作者想表達的主要意思。"], ["上台報告以前，我把要說的重點按照順序重新整理了一次。", "I REORGANIZED THE MAIN POINTS.", "上台報告以前，|我把要說的重點|按照順序|重新整理了一次。"], ["遇到不同意見時，我們可以先聽完對方的理由，再說自己的想法。", "LISTEN FIRST, THEN SHARE YOUR IDEA.", "遇到不同意見時，|我們可以先聽完|對方的理由，|再說自己的想法。"], ["今天的自然課做了小實驗，我們從結果推測溫度可能會影響變化速度。", "WE INFERRED TEMPERATURE MAY AFFECT THE RATE.", "今天的自然課|做了小實驗，|我們從結果推測|溫度可能會影響變化速度。"], ["每次完成練習以後，我都會檢查自己最常出錯的地方。", "I CHECK MY MOST COMMON MISTAKES AFTER PRACTICE.", "每次完成練習以後，|我都會檢查|自己最常出錯的|地方。"]];
+const ADV_UNDERSTAND=[["小明原本想去公園打球，但是天空突然變黑，還開始打雷，所以他決定先回家。", "WHY DID XIAOMING GO HOME?", "因為天氣變差"], ["老師把全班分成四組，每組要一起完成一張海報，最後再輪流上台介紹。", "WHAT DOES EACH GROUP HAVE TO DO?", "一起完成海報並介紹"], ["媽媽給我五百元買文具，我花了三百二十元，剩下的錢要帶回家。", "HOW MUCH MONEY IS LEFT?", "一百八十元"], ["這株植物放在窗邊一星期後長高了三公分，我每天都把高度記錄下來。", "WHAT WAS RECORDED?", "植物每天的高度"], ["哥哥先查地圖，再比較兩條路線，最後選擇距離比較短的那一條。", "WHY DID HE COMPARE ROUTES?", "找較短的路"], ["我們閱讀完故事後，老師請大家找出主角遇到的問題和最後的解決方法。", "WHAT SHOULD STUDENTS FIND?", "問題和解決方法"], ["今天的實驗有兩杯水，一杯放冰塊，一杯放在陽光下，我們要觀察溫度變化。", "WHAT IS BEING OBSERVED?", "溫度變化"], ["新聞標題只寫了一句話，爸爸提醒我還要閱讀完整內容，才能了解事情經過。", "WHY READ THE FULL ARTICLE?", "了解完整事情經過"], ["旅行前，我把衣服、雨傘、充電器和車票一項一項放進行李箱，避免漏帶東西。", "WHY CHECK ITEMS ONE BY ONE?", "避免漏帶東西"], ["同學提出不同意見時，我先聽他說完理由，再解釋自己的想法。", "WHAT SHOULD YOU DO FIRST?", "先聽完對方理由"], ["這篇文章有四個段落，每段都在說不同的事情，我先為每段寫下一句重點。", "WHAT DID THE READER DO?", "整理每段重點"], ["比賽開始前，教練提醒大家先確認規則，不要只顧著跑得快。", "WHAT SHOULD BE CONFIRMED FIRST?", "比賽規則"], ["我第一次算錯答案，重新看題目後才發現漏掉了一個重要條件。", "WHY WAS THE FIRST ANSWER WRONG?", "漏看重要條件"], ["植物的葉子朝向窗戶生長，我猜可能跟光線的方向有關。", "WHAT MAY AFFECT GROWTH DIRECTION?", "光線方向"], ["我們把垃圾分成紙類、塑膠和一般垃圾，再放進不同的回收桶。", "WHAT ARE THEY DOING?", "垃圾分類"], ["今天要做小組報告，我負責找資料，另一位同學負責整理圖片。", "WHAT IS THE SPEAKER RESPONSIBLE FOR?", "找資料"], ["媽媽請我比較兩家商店的價格，再決定在哪裡買同樣的商品。", "WHY COMPARE PRICES?", "決定在哪裡購買"], ["老師說遇到不懂的詞，不要立刻放棄，可以先從前後句推測意思。", "WHAT CAN YOU DO FIRST?", "從上下文推測"], ["我們每天記錄天氣，一星期後比較晴天和雨天各有幾天。", "WHAT WILL BE COMPARED?", "晴天和雨天的天數"], ["我讀完故事後發現，前面不起眼的小線索其實跟最後的結局有關。", "WHAT WAS RELATED TO THE ENDING?", "前面的線索"]];
+const ERROR_BANK=[["我以經寫完今天的功課了。", "以經", "已經"], ["他因該先把桌面整理乾淨。", "因該", "應該"], ["我們在操場上練習藍球。", "藍球", "籃球"], ["老師請大家安靜座好。", "座好", "坐好"], ["我把今天的做業放進書包。", "做業", "作業"], ["下雨天走路要特別小新。", "小新", "小心"], ["這個問題我還沒有想清處。", "清處", "清楚"], ["我們一起討論解決辨法。", "辨法", "辦法"], ["他把重要的資聊整理成表格。", "資聊", "資料"], ["請先檢察答案再交出去。", "檢察", "檢查"], ["我門今天要完成分組報告。", "我門", "我們"], ["這篇文章的內榮很有趣。", "內榮", "內容"], ["遇到問題時不要馬尚放棄。", "馬尚", "馬上"], ["我想知道事情發生的原固。", "原固", "原因"], ["老師要我們尊守教室規則。", "尊守", "遵守"], ["這個實驗需要仔細觀查。", "觀查", "觀察"], ["我把答案從新檢查一次。", "從新", "重新"], ["我們應該保戶自然環境。", "保戶", "保護"], ["他很認真地準被明天的考試。", "準被", "準備"], ["我先閱讀完整內榮再回答問題。", "內榮", "內容"]];
+let roundSeen=new Set();
+let errorSeen=new Set();
+let difficulty=Math.max(1,Math.min(5,+localStorage.getItem("f17difficulty")||1));
+let maxDifficulty=Math.max(difficulty,Math.max(1,Math.min(5,+localStorage.getItem("f17maxDifficulty")||1)));
+let speechMode=localStorage.getItem("f17speech")||"normal";
+let mastery=JSON.parse(localStorage.getItem("f17mastery")||"{}");
+let level=+localStorage.getItem("f125level")||0,lang=localStorage.getItem("f125lang")||"en",xp=+localStorage.getItem("f125xp")||0,coin=+localStorage.getItem("f125coin")||0,star=+localStorage.getItem("f125star")||0,phase=0,score=0,current=null,raf=0,built=[],bossHP=100,bossSeen=[];const $=x=>document.getElementById(x),screens=["learn","choice","falling","sport","sentence","writing","boss","done"];
+function save(){
+localStorage.setItem("f125level",level);localStorage.setItem("f125lang",lang);localStorage.setItem("f125xp",xp);localStorage.setItem("f125coin",coin);localStorage.setItem("f125star",star);
+localStorage.setItem("f17difficulty",difficulty);localStorage.setItem("f17maxDifficulty",maxDifficulty);localStorage.setItem("f17speech",speechMode);localStorage.setItem("f17mastery",JSON.stringify(mastery));
+$("xp").textContent=xp;$("coin").textContent=coin;$("star").textContent=star
+}
+function unlockedDifficulty(){return Math.max(1,Math.min(5,maxDifficulty))}
+function speechRates(){
+  if(speechMode==="slow")return {en:.84,zh:.86,pause:460,labelEN:"SLOW",labelZH:"慢"};
+  if(speechMode==="fast")return {en:1.12,zh:1.16,pause:160,labelEN:"FAST",labelZH:"快速"};
+  return {en:.96,zh:1.04,pause:260,labelEN:"NORMAL",labelZH:"正常"}
+}
+let cachedVoices=[];
+function refreshVoices(){
+  try{cachedVoices=window.speechSynthesis?window.speechSynthesis.getVoices():[]}catch(e){cachedVoices=[]}
+}
+refreshVoices();
+try{if(window.speechSynthesis)window.speechSynthesis.onvoiceschanged=refreshVoices}catch(e){}
+function bestVoice(langCode){
+  refreshVoices();
+  let list=cachedVoices||[];
+  if(langCode==="en-US"){
+    const preferred=["Samantha","Ava","Allison","Nicky","Aaron","Alex","Google US English","Microsoft Aria"];
+    for(const name of preferred){
+      let v=list.find(x=>x.lang&&x.lang.toLowerCase().startsWith("en-us")&&x.name.includes(name));
+      if(v)return v
+    }
+    return list.find(x=>x.lang&&x.lang.toLowerCase()==="en-us")
+      || list.find(x=>x.lang&&x.lang.toLowerCase().startsWith("en-"))
+      || null
+  }
+  if(langCode==="zh-TW"){
+    return list.find(x=>x.lang&&x.lang.toLowerCase()==="zh-tw")
+      || list.find(x=>x.lang&&x.lang.toLowerCase().startsWith("zh-"))
+      || null
+  }
+  return list.find(x=>x.lang===langCode)||null
+}
+function voice(t,langCode,rate){
+  return new Promise(res=>{
+    if(!("speechSynthesis"in window)){res();return}
+    let u=new SpeechSynthesisUtterance(String(t||""));
+    u.lang=langCode;
+    let v=bestVoice(langCode); if(v)u.voice=v;
+    u.rate=rate||1;
+    u.pitch=1;
+    u.volume=1;
+    u.onend=res;u.onerror=res;
+    speechSynthesis.speak(u)
+  })
+}
+function speak(t){try{if("speechSynthesis"in window)window.speechSynthesis.cancel();voice(t,"zh-TW",speechRates().zh)}catch(e){}}
+function naturalEnglish(t){
+  t=String(t||"").trim();
+  if(!t)return t;
+  if(t===t.toUpperCase() && /[A-Z]/.test(t)){
+    t=t.toLowerCase().replace(/(^|[.!?]\s+)([a-z])/g,(m,a,b)=>a+b.toUpperCase())
+  }
+  return t
+}
+async function bilingual(en,zh){
+  try{
+    if(!("speechSynthesis"in window))return;
+    window.speechSynthesis.cancel();
+    let r=speechRates();
+    if(en)await voice(naturalEnglish(en),"en-US",r.en);
+    if(en&&zh)await new Promise(x=>setTimeout(x,r.pause));
+    if(zh)await voice(zh,"zh-TW",r.zh)
+  }catch(e){}
+}
+function announce(item){
+  if(level===1 && item && item[4]==="bank"){speak(item[0]);return}
+  if(difficulty>=4 && item){speak(item[0]);return}
+  if(item)bilingual(item[1],item[0])
+}
+
+window.finnSetSpeech=function(mode){
+  if(!["slow","normal","fast"].includes(mode))return;
+  speechMode=mode;
+  localStorage.setItem("f17speech",speechMode);
+  save();
+  renderDifficultyUI();
+  // Play a short confirmation at the selected speed.
+  try{
+    if("speechSynthesis"in window)window.speechSynthesis.cancel();
+    voice(mode==="slow"?"慢速":mode==="fast"?"快速":"正常速度","zh-TW",speechRates().zh);
+  }catch(e){}
+};
+window.finnReplayPrompt=function(){
+  if(!current)return;
+  try{
+    if("speechSynthesis"in window)window.speechSynthesis.cancel();
+    // Listening questions should always replay the Chinese target.
+    speak(current[0]);
+  }catch(e){}
+};
+const CHEERS=[
+["Great job!","答對了！你好棒！"],
+["Excellent!","太棒了！你答對了！"],
+["Nice work!","做得很好！"],
+["You got it!","答對了！繼續加油！"],
+["Awesome!","好厲害！這個字你認識了！"]
+];
+const LEVEL_CHEERS=[
+["Fantastic, Finn! You passed this level.","Finn，你好棒！過關了！你又多認識了幾個中文字。準備好，我們繼續下一關！"],
+["Great work, Finn! You learned more Chinese today.","Finn，做得很好！今天又學會新的中文字了。我們繼續冒險吧！"],
+["Level complete! Your Chinese is getting stronger.","過關！你的中文越來越厲害了。剛剛學過的字要記住，我們下一關再見！"],
+["Amazing! Another challenge completed.","太棒了！又完成一個挑戰。休息一下，準備好我們就繼續！"],
+["You did it, Finn!","Finn，你做到了！又多認識幾個字，下一關會再難一點點喔！"]
+];
+function cheer(){let c=CHEERS[Math.floor(Math.random()*CHEERS.length)];bilingual(c[0],c[1])}
+function levelCheer(){let c=LEVEL_CHEERS[Math.floor(Math.random()*LEVEL_CHEERS.length)];bilingual(c[0],c[1])}
+function ui(en,zh){return lang==="en"?en:zh}function hide(){screens.forEach(x=>$(x).classList.remove("on"));cancelAnimationFrame(raf)}function show(x){hide();$(x).classList.add("on")}
+function difficultyRounds(){return V17.rounds[difficulty-1]}
+function levelWordPool(){
+  const ranges=[[80,220],[180,340],[300,500],[460,650],[600,800]];
+  let [a,b]=ranges[difficulty-1];
+  return WORD800.slice(a,b)
+}
+function levelCharPool(){
+  const chars=stages[0].data;
+  // Level 1 is deliberately mixed: basic + school/life/action characters.
+  const bands=[
+    [...chars.slice(20,70),...chars.slice(95,130),...chars.slice(150,175)],
+    [...chars.slice(55,105),...chars.slice(125,175),...chars.slice(195,220)],
+    [...chars.slice(90,150),...chars.slice(170,225)],
+    [...chars.slice(120,200),...chars.slice(215,255)],
+    chars.slice(150,255)
+  ];
+  // Deduplicate while preserving stable source order.
+  let seen=new Set();
+  return bands[difficulty-1].filter(x=>{if(seen.has(x[0]))return false;seen.add(x[0]);return true})
+}
+function currentPoolSize(){return pool().length}
+function translatedWordMap(){let m={};stages[1].data.forEach(x=>m[x[0]]=x);return m}
+const WORD_TRANSLATED=translatedWordMap();
+function wordEntry(w){
+  if(WORD_TRANSLATED[w])return [...WORD_TRANSLATED[w],"translated"];
+  return [w,"","🔊","", "bank"]
+}
+function pool(){
+  if(level===0)return levelCharPool();
+  if(level===1)return levelWordPool().map(wordEntry);
+  if(level===2 && difficulty>=3)return ADV_PHRASES;
+  if(level===3 && difficulty>=3)return ADV_IDIOMS;
+  if(level===4 && difficulty>=3)return ADV_SENTENCES;
+  if(level===5 && difficulty>=3)return ADV_UNDERSTAND;
+  return stages[Math.min(level,5)].data
+}
+function shuffle(a){
+  a=a.slice();
+  for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  return a
+}
+function pick(){
+  let p=pool();
+  let available=p.filter(x=>!roundSeen.has(x[0]));
+  if(!available.length){
+    // Safety fallback only if a pool is smaller than a full run.
+    roundSeen.clear();
+    available=p.slice()
+  }
+  let t=available[Math.floor(Math.random()*available.length)];
+  roundSeen.add(t[0]);
+  return t
+}
+function options(t){
+  let wrong=V17.wrongOptions[difficulty-1];
+  let rest=shuffle(pool().filter(x=>x[0]!==t[0])).slice(0,wrong);
+  return shuffle([t,...rest])
+}
+function markMastered(){
+  if(!current)return;
+  let k=current[0];
+  mastery[k]=(mastery[k]||0)+1;
+  save()
+}
+function award(){
+  xp+=10+(difficulty-1)*2;coin+=2;markMastered();
+  $("msg").textContent=ui("✓ Great! +XP","+XP，答對了！");
+  cheer();renderDifficultyUI()
+}
+function currentAreaName(){return lang==="en"?V17.difficultyNamesEN[difficulty-1]:V17.difficultyNamesZH[difficulty-1]}
+function renderDifficultyUI(){
+  let grid=$("difficultyGrid");if(!grid)return;
+  let u=unlockedDifficulty();
+  if(difficulty>u)difficulty=u;
+  grid.innerHTML="";
+  for(let i=1;i<=5;i++){
+    let need=V17.difficultyThresholds[i-1],b=document.createElement("button");
+    b.className="diffbtn "+(i===difficulty?"active ":"")+(i>u?"locked":"");
+    let name=lang==="en"?V17.difficultyNamesEN[i-1]:V17.difficultyNamesZH[i-1];
+    b.innerHTML="<b>Level "+i+"</b><small>"+name+(i>u?ui(" · 🔒 Pass Level "+(i-1)," · 🔒 完成 Level "+(i-1)+" 解鎖"):"")+"</small>";
+    b.onclick=()=>{if(i>u)return;difficulty=i;phase=0;save();renderDifficultyUI();renderMap()};
+    grid.appendChild(b)
+  }
+  let rates=speechRates();
+  ["Slow","Normal","Fast"].forEach(k=>{let el=$("speed"+k);if(el)el.className="sec speedbtn"+(speechMode===k.toLowerCase()?" active":"")});
+  if($("speedSlow"))$("speedSlow").textContent=ui("Slow","慢");
+  if($("speedNormal"))$("speedNormal").textContent=ui("Normal","正常");
+  if($("speedFast"))$("speedFast").textContent=ui("Fast","快速");
+  if($("speedLabel"))$("speedLabel").textContent=ui("🔊 Speech speed","🔊 語速");
+  if($("difficultyTitle"))$("difficultyTitle").textContent=ui("🎮 Difficulty Level 1–5","🎮 難度 Level 1–5");
+  if($("difficultyNote"))$("difficultyNote").textContent=ui("Harder from the start. Each level adds harder vocabulary, more questions, and fewer hints.","一開始就提高難度；每次過關後題目更多、詞彙更難、提示更少。");
+  let learned=Object.keys(mastery).filter(k=>mastery[k]>0).length;
+  if($("masteryLine"))$("masteryLine").textContent=ui("Practiced "+learned+" items · Current pool "+currentPoolSize(),"已練習 "+learned+" 個字詞 · 目前題庫 "+currentPoolSize()+" 個");
+  if($("playDifficulty"))$("playDifficulty").textContent="LV"+difficulty;
+  if($("playSpeed"))$("playSpeed").textContent="🔊 "+(lang==="en"?rates.labelEN:rates.labelZH);
+  let homeTitle=$("homeTitle");if(homeTitle)homeTitle.textContent=(difficulty===1?"🌱 ":difficulty===2?"🌲 ":difficulty===3?"🏙️ ":difficulty===4?"🏯 ":"👑 ")+currentAreaName()
+}
+function renderMap(){
+  let e=$("mapNodes");e.innerHTML="";
+  stages.forEach((s,i)=>{
+    let d=document.createElement("div");d.className="node "+(i<level?"done":i===level?"on":"lock");
+    d.innerHTML="<b>"+s.icon+"</b><br>"+(lang==="en"?s.nameEN:s.nameZH)+"<br>"+(i<level?"✓":i===level?"PLAY":"🔒");
+    e.appendChild(d)
+  });
+  $("homeSub").textContent=ui("Difficulty "+difficulty+" · "+difficultyRounds()+" challenges · Characters → Words → Phrases → Idioms → Sentences → Boss.",
+  "難度 "+difficulty+" · 每關 "+difficultyRounds()+" 題 · 認字 → 詞語 → 短語 → 成語 → 造句 → 魔王。");
+  renderDifficultyUI()
+}
+function startLevel(){
+  $("home").style.display="none";$("play").style.display="block";phase=0;score=0;bossHP=100;bossSeen=[];
+  roundSeen.clear();errorSeen.clear();
+  renderDifficultyUI();load()
+}
+function load(){
+  $("msg").textContent="";
+  let rounds=difficultyRounds();
+  $("bar").style.width=(Math.min(phase,rounds)/rounds*100)+"%";
+  let st=stages[level];
+  $("stageTitle").textContent=lang==="en"?st.nameEN:st.nameZH;
+  if(st.type==="boss"){bossRound();return}
+  $("stageLabel").textContent="LEVEL "+difficulty+" · "+(phase===0?ui("READY","準備"):ui("CHALLENGE "+phase+" / "+rounds,"第 "+phase+" / "+rounds+" 題"));
+  if(phase===0){learnScreen();return}
+  if(phase>rounds){completeLevel();return}
+  let mode=(phase-1)%5;
+  if(difficulty>=3 && phase%4===0){errorRound();return}
+  if(mode===0)choiceRound();
+  else if(mode===1)fallRound();
+  else if(mode===2)(st.type==="char"&&phase<=5?writingRound():(st.type==="sentence"?sentenceRound():sportRound()));
+  else if(mode===3)choiceRound();
+  else (st.type==="sentence"?sentenceRound():sportRound())
+}
+function learnScreen(){
+  show("learn");current=pick();setTimeout(()=>announce(current),350);
+  $("pic").textContent=current[2]||"✨";
+  let generic=(level===1&&current[4]==="bank");
+  $("english").textContent=(generic?ui("Listen & recognize","聽音辨詞"):current[1]);
+  $("mainChinese").textContent=current[0];$("pron").textContent=current[3]||"";
+  if(level===0&&difficulty<=2){
+    $("detailChinese").textContent=ui("Character practice","認字練習");
+    $("detailEnglish").textContent=ui("Look, listen, then answer.","看、聽，再開始挑戰。");
+    $("exampleChinese").textContent="";$("exampleEnglish").textContent=""
+  }else if(level===1){
+    $("detailChinese").textContent=ui("Listen carefully and remember this word.","仔細聽，記住這個詞。");
+    $("detailEnglish").textContent=difficulty>=4?ui("Less English help at higher levels.","高難度會減少英文提示。"):"";
+    $("exampleChinese").textContent="";$("exampleEnglish").textContent=""
+  }else{
+    $("detailChinese").textContent=ui("Tap to hear Chinese","點中文字聽發音");
+    $("detailEnglish").textContent="";$("exampleChinese").textContent="";$("exampleEnglish").textContent=""
+  }
+  $("learnGo").textContent=ui("START "+difficultyRounds()+" CHALLENGES ▶","開始 "+difficultyRounds()+" 題挑戰 ▶")
+}
+function autoSpeakChinesePrompt(){
+  if(!current)return;
+  try{
+    if("speechSynthesis"in window)window.speechSynthesis.cancel();
+    speak(current[0]);
+  }catch(e){}
+}
+function errorRound(){
+  show("choice");
+  let av=ERROR_BANK.filter(x=>!errorSeen.has(x[0]));
+  if(!av.length){errorSeen.clear();av=ERROR_BANK.slice()}
+  let q=av[Math.floor(Math.random()*av.length)];errorSeen.add(q[0]);
+  $("cq").innerHTML=ui("Find the wrong word: <b>"+q[0]+"</b>","找出錯字：<b>"+q[0]+"</b>");
+  let correct=q[1],fixed=q[2];
+  let distract=shuffle(ERROR_BANK.map(x=>x[1]).filter(x=>x!==correct)).slice(0,3);
+  let opts=shuffle([correct,...distract]),a=$("ca");a.innerHTML="";
+  opts.forEach(x=>{
+    let b=document.createElement("button");b.textContent=x;
+    b.onclick=()=>{
+      speak(x);
+      if(x===correct){
+        current=[fixed,"","✨"];
+        award();
+        $("msg").textContent=ui("Correct. It should be 「"+fixed+"」.","答對了，應該寫成「"+fixed+"」。");
+        phase++;setTimeout(load,850)
+      }else $("msg").textContent=ui("That word is correct. Find the typo.","這個不是錯字，再找一次。")
+    };
+    a.appendChild(b)
+  })
+}
+function choiceRound(){
+  show("choice");current=pick();
+  let wordListen=(level===1&&(current[4]==="bank"||difficulty>=3));
+  if(wordListen){
+    $("cq").innerHTML=ui("🔊 Listen and choose the Chinese word.","🔊 聽發音，選出正確的詞。");
+    autoSpeakChinesePrompt();
+  }else if(level>=5){
+    $("cq").innerHTML=ui("<b>"+current[0]+"</b><br>"+(current[1]||"Choose the best answer."),"<b>"+current[0]+"</b><br>選出最適合的答案：");
+    setTimeout(()=>speak(current[0]),120);
+  }else if(difficulty>=4){
+    $("cq").innerHTML=ui("Choose the Chinese you hear.","選出你聽到的中文。");
+    autoSpeakChinesePrompt();
+  }else{
+    $("cq").innerHTML=ui("Which Chinese means <b>"+current[1]+"</b>?","哪一個中文是 <b>"+current[1]+"</b>？");
+    setTimeout(()=>announce(current),120);
+  }
+  let a=$("ca");a.innerHTML="";
+  options(current).forEach(o=>{
+    let b=document.createElement("button");
+    b.textContent=(level>=5&&difficulty>=3)?o[2]:(level>=5?o[1]:o[0]);
+    b.onclick=()=>{
+      if(level<5)speak(o[0]);
+      if(o[0]===current[0]){award();phase++;setTimeout(load,Math.max(520,900-difficulty*70))}
+      else $("msg").textContent=ui("Not yet — try again.","還不對，再試一次。")
+    };
+    a.appendChild(b)
+  })
+}
+function fallRound(){
+  show("falling");current=pick();
+  let generic=(level===1&&(current[4]==="bank"||difficulty>=3));
+  $("fq").innerHTML=generic?ui("🔊 Catch the word you hear!","🔊 抓住你聽到的詞！"):ui("Catch <b>"+current[1]+"</b> before it lands!","在掉下來前找到 <b>"+current[0]+"</b>！");
+  // Critical: say the Chinese word immediately when this screen opens.
+  if(generic||difficulty>=4)autoSpeakChinesePrompt();else setTimeout(()=>announce(current),120);
+  let a=$("arena");a.innerHTML="";let bs=[];
+  let opts=options(current);
+  opts.forEach((o,i)=>{
+    let b=document.createElement("button");b.className="fall";b.textContent=o[0];
+    b.style.left=(3+i*(92/Math.max(1,opts.length)))+"%";
+    a.appendChild(b);bs.push(b);
+    b.onclick=()=>{
+      speak(o[0]);
+      if(o[0]===current[0]){award();cancelAnimationFrame(raf);phase++;setTimeout(load,Math.max(500,850-difficulty*60))}
+      else $("msg").textContent=ui("Try another one.","再試另一個。")
+    }
+  });
+  let t0=performance.now(),duration=V17.fallMs[difficulty-1];
+  function tick(n){
+    let q=(n-t0)/duration,y=-100+q*(a.clientHeight+40);
+    bs.forEach((b,i)=>b.style.transform="translateY("+y+"px) rotate("+(q*18*(i%2?1:-1))+"deg)");
+    if(q>=1){
+      speak(current[0]);$("msg").textContent=ui("Answer: "+current[0],"答案："+current[0]);
+      setTimeout(()=>{phase++;load()},550);return
+    }
+    raf=requestAnimationFrame(tick)
+  }
+  raf=requestAnimationFrame(tick)
+}
+function sportRound(){
+  show("sport");current=pick();
+  let generic=(level===1&&(current[4]==="bank"||difficulty>=3));
+  $("sq").innerHTML=generic?ui("🏀 Listen and score with the correct word","🏀 聽發音，投進正確的詞"):ui("🏀 Score with <b>"+current[1]+"</b>","🏀 投進 <b>"+current[0]+"</b>");
+  if(generic||difficulty>=4)autoSpeakChinesePrompt();else setTimeout(()=>announce(current),120);
+  let e=$("sportAns");e.innerHTML="";
+  options(current).forEach(o=>{
+    let b=document.createElement("button");b.innerHTML="🏀<span>"+o[0]+"</span>";
+    b.onclick=()=>{
+      speak(o[0]);
+      if(o[0]===current[0]){b.innerHTML="🏀✨<span>SWISH!</span>";award();phase++;setTimeout(load,Math.max(500,850-difficulty*60))}
+      else $("msg").textContent=ui("Miss — try again.","沒進，再試一次。")
+    };
+    e.appendChild(b)
+  })
+}
+function sentenceRound(){show("sentence");current=pick();built=[];setTimeout(()=>bilingual(current[1],current[0]),600);$("sentenceQ").innerHTML=ui("Build: <b>"+current[1]+"</b>","造句：<b>"+current[1]+"</b>");renderSentence()}
+function renderSentence(){let a=$("built"),e=$("tiles");a.textContent=built.length?built.join(""):ui("Build the Chinese sentence here","把句子排在這裡");e.innerHTML="";current[2].split("|").sort(()=>Math.random()-.5).forEach(x=>{let b=document.createElement("button");b.className="tile";b.textContent=x;b.onclick=()=>{speak(x);built.push(x);b.disabled=true;b.style.opacity=.3;a.textContent=built.join("")};e.appendChild(b)})}
+$("check").onclick=()=>{if(!current)return;if(built.join("")===current[0]){speak(current[0]);award();phase++;setTimeout(load,1300)}else{$("msg").textContent=ui("Almost! Try the word order again.","差一點，重新排列。");built=[];renderSentence()}};
+let traceMode=true,drawn=false;
+function writingRound(){
+show("writing");
+const SP={"一":[[[60,150],[240,150]]],"二":[[[75,105],[225,105]],[[60,205],[240,205]]],"三":[[[90,80],[210,80]],[[75,150],[225,150]],[[55,225],[245,225]]],"人":[[[155,65],[145,105],[125,150],[100,195],[65,235]],[[150,95],[165,135],[185,175],[215,215],[245,235]]],"大":[[[65,115],[235,115]],[[155,65],[150,115],[135,165],[105,210],[65,240]],[[155,120],[175,165],[205,210],[240,238]]],"小":[[[150,70],[150,190],[142,220],[128,228]],[[110,135],[95,165],[72,195]],[[190,135],[205,165],[230,195]]],"山":[[[150,65],[150,230]],[[85,120],[85,225],[215,225]],[[215,115],[215,225]]],"木":[[[65,125],[235,125]],[[150,65],[150,240]],[[145,130],[120,165],[90,200],[60,225]],[[155,130],[180,165],[210,200],[242,225]]],"十":[[[65,130],[235,130]],[[150,65],[150,235]]],"上":[[[120,75],[120,205]],[[120,125],[205,125]],[[65,215],[235,215]]],"下":[[[65,85],[235,85]],[[150,85],[150,235]],[[155,145],[205,185]]]};
+const keys=Object.keys(SP);
+const ch=keys[Math.floor(Math.random()*keys.length)];
+const strokes=SP[ch];
+let drawing=false,last=null,writeMode="locked";
+$("writingQ").innerHTML=ui("✍️ Watch first: 「"+ch+"」","✍️ 先看示範：「"+ch+"」");
+$("guideChar").textContent=ch;
+$("guideChar").style.opacity=".16";
+let oldCanvas=$("writeCanvas");
+let wrap=oldCanvas.parentElement;
+let demo=document.createElementNS("http://www.w3.org/2000/svg","svg");
+demo.setAttribute("viewBox","0 0 300 300");
+demo.style.cssText="position:absolute;inset:0;width:300px;height:300px;z-index:3;pointer-events:none";
+wrap.style.position="relative";
+wrap.appendChild(demo);
+oldCanvas.style.pointerEvents="none";
+$("clearWrite").disabled=true;$("toggleTrace").disabled=true;$("finishWrite").disabled=true;
+$("finishWrite").textContent=ui("DONE ✓","完成 ✓");
+$("clearWrite").textContent=ui("↻ CLEAR","↻ 清除");
+$("toggleTrace").textContent=ui("✍️ MY TURN","✍️ 換我寫");
+let ctx=oldCanvas.getContext("2d");ctx.clearRect(0,0,oldCanvas.width,oldCanvas.height);ctx.lineWidth=18;ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle="#202a55";
+function pt(e){let r=oldCanvas.getBoundingClientRect();return[(e.clientX-r.left)*oldCanvas.width/r.width,(e.clientY-r.top)*oldCanvas.height/r.height]}
+oldCanvas.onpointerdown=e=>{if(writeMode==="locked")return;drawing=true;last=pt(e);try{oldCanvas.setPointerCapture(e.pointerId)}catch(_e){}};
+oldCanvas.onpointermove=e=>{if(!drawing||writeMode==="locked")return;let n=pt(e);ctx.beginPath();ctx.moveTo(...last);ctx.lineTo(...n);ctx.stroke();last=n};
+oldCanvas.onpointerup=oldCanvas.onpointercancel=()=>drawing=false;
+function clearIt(){ctx.clearRect(0,0,oldCanvas.width,oldCanvas.height)}
+function pd(p){return p.map((q,i)=>(i?"L":"M")+q[0]+" "+q[1]).join(" ")}
+function pl(p){let n=0;for(let i=1;i<p.length;i++)n+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);return n}
+async function runDemo(){
+writeMode="locked";demo.innerHTML="";clearIt();oldCanvas.style.pointerEvents="none";$("clearWrite").disabled=true;$("toggleTrace").disabled=true;$("finishWrite").disabled=true;
+try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(ch);u.lang="zh-TW";u.rate=speechRates().zh;speechSynthesis.speak(u)}catch(e){}
+for(let i=0;i<strokes.length;i++){let path=document.createElementNS("http://www.w3.org/2000/svg","path"),L=pl(strokes[i]);path.setAttribute("d",pd(strokes[i]));path.setAttribute("fill","none");path.setAttribute("stroke","#e62929");path.setAttribute("stroke-width","18");path.setAttribute("stroke-linecap","round");path.style.strokeDasharray=L;path.style.strokeDashoffset=L;demo.appendChild(path);$("writingQ").innerHTML=ui("Stroke "+(i+1)+" / "+strokes.length+" · "+ch,"第 "+(i+1)+" / "+strokes.length+" 畫 · "+ch);await new Promise(r=>requestAnimationFrame(()=>{path.style.transition="stroke-dashoffset .72s ease";path.style.strokeDashoffset="0";setTimeout(r,820)}));await new Promise(r=>setTimeout(r,120))}
+$("writingQ").innerHTML=ui("Demo complete! Tap MY TURN.","示範完成！按「換我寫」。");$("toggleTrace").disabled=false;
+}
+$("toggleTrace").onclick=()=>{demo.innerHTML="";writeMode="trace";oldCanvas.style.pointerEvents="auto";$("guideChar").style.opacity=".16";$("clearWrite").disabled=false;$("finishWrite").disabled=false;$("toggleTrace").textContent=ui("FREE WRITE","自己寫");$("toggleTrace").onclick=()=>{writeMode="free";$("guideChar").style.opacity="0";clearIt()};$("writingQ").innerHTML=ui("Your turn: TRACE 「"+ch+"」","換你寫：沿著「"+ch+"」描一次");};
+$("clearWrite").onclick=clearIt;
+$("finishWrite").onclick=()=>{if(demo.parentNode)demo.remove();award();phase++;setTimeout(load,1300)};
+setTimeout(runDemo,400);
+}
+function completeLevel(){
+show("done");star++;coin+=20;
+let rounds=difficultyRounds();
+if(difficulty<5){
+  maxDifficulty=Math.max(maxDifficulty,difficulty+1);
+}
+save();setTimeout(levelCheer,250);
+$("doneTitle").textContent=ui(rounds+" / "+rounds+" · LEVEL "+difficulty+" COMPLETE!",rounds+" / "+rounds+" · Level "+difficulty+" 過關！");
+if(difficulty<5){
+  let nd=difficulty+1;
+  $("doneText").textContent=ui(
+    "Level "+nd+" unlocked · "+V17.difficultyNamesEN[nd-1]+". Next round will be harder.",
+    "已解鎖 Level "+nd+" · "+V17.difficultyNamesZH[nd-1]+"。下一級會更難。"
+  );
+  $("next").textContent=ui("GO TO LEVEL "+nd+" ▶","進入 Level "+nd+" ▶");
+}else{
+  $("doneText").textContent=ui(
+    "Level 5 complete! Continue to the next content challenge.",
+    "Level 5 完成！繼續進入下一個內容挑戰。"
+  );
+  $("next").textContent=ui("CONTINUE ▶","繼續 ▶");
+}
+renderDifficultyUI()
+}
+function bossRound(){show("boss");$("bar").style.width=(100-bossHP)+"%";let all=[...stages[0].data,...stages[1].data,...stages[2].data,...stages[3].data],av=all.filter(x=>!bossSeen.includes(x[0]));if(!av.length){bossSeen=[];av=all}current=av[Math.floor(Math.random()*av.length)];bossSeen.push(current[0]);$("hp").style.width=bossHP+"%";$("bq").innerHTML=ui("4 HITS TO WIN · <b>"+current[1]+"</b>","四次攻擊過關 · <b>"+current[1]+"</b>");let wrong=all.filter(x=>x[0]!==current[0]).sort(()=>Math.random()-.5).slice(0,3),os=[current,...wrong].sort(()=>Math.random()-.5),e=$("ba");e.innerHTML="";os.forEach(o=>{let b=document.createElement("button");b.textContent=o[0];b.onclick=()=>{speak(o[0]);if(o[0]===current[0]){bossHP-=25;xp+=20;save();$("hp").style.width=bossHP+"%";$("msg").textContent="🔥 HIT! -25 HP";if(bossHP<=0){star+=3;coin+=50;save();show("done");setTimeout(()=>bilingual("World complete! Amazing work, Finn!","Finn，太棒了！世界挑戰完成！你今天又學會更多中文了！"),350);$("doneTitle").textContent=ui("WORLD 1 COMPLETE!","初心島完成！");$("doneText").textContent=ui("You mastered characters, words, phrases, idioms and sentences.","你完成了認字、詞語、短語、成語與造句！");$("next").textContent=ui("PLAY AGAIN ↻","再玩一次 ↻")}else setTimeout(bossRound,450)}else $("msg").textContent=ui("Blocked! Try again.","被擋住了，再試一次。")};e.appendChild(b)})}
+$("listen").onclick=()=>current&&speak(current[0]);$("learnGo").onclick=()=>{phase=1;load()};$("next").onclick=()=>{
+  if(difficulty<5){
+    difficulty++;
+    maxDifficulty=Math.max(maxDifficulty,difficulty);
+  }else{
+    if(level<6)level++;
+    else level=0;
+  }
+  phase=0;
+  localStorage.setItem("f125level",level);
+  save();renderMap();startLevel()
+};$("back").onclick=()=>{$("play").style.display="none";$("home").style.display="block";renderMap()};
+window.finnContinue=()=>{startLevel()};window.finnStartSelectedLevel=(i)=>{level=Math.max(0,Math.min(stages.length-1,Number(i)||0));phase=0;localStorage.setItem("f125level",String(level));save();startLevel()};
+window.finnRestart=()=>{if(confirm(ui("Restart all learning progress?","確定重新開始？XP、難度、金幣與學習紀錄會歸零。"))){level=0;phase=0;xp=0;coin=0;star=0;difficulty=1;maxDifficulty=1;mastery={};Object.keys(localStorage).filter(k=>k.startsWith("f17")||k.startsWith("f125_recent_")).forEach(k=>localStorage.removeItem(k));["f125level","f125xp","f125coin","f125star"].forEach(k=>localStorage.removeItem(k));save();renderMap();startLevel()}};
+let lc=document.getElementById("homeLevelPanel");stages.forEach((st,i)=>{let b=document.createElement("button");b.className=i===0?"btn":"sec";b.textContent=(i+1)+" · "+st.nameZH;b.onclick=()=>{level=i;phase=0;localStorage.setItem("f125level",i);startLevel()};lc.appendChild(b)});
+
+window.finnUILang=lang;
+function applyFullLanguage(){
+  window.finnUILang=lang;
+  const en=(lang==="en");
+  const zhBtn=document.getElementById("zhLang"), enBtn=document.getElementById("enLang");
+  if(zhBtn&&enBtn){zhBtn.className=en?"sec":"btn";enBtn.className=en?"btn":"sec";}
+  const mapText={
+    restartHome:["🌱 Start Over","🌱 重新開始"],
+    continueHome:["▶ Continue","▶ 繼續"],
+    chooseHome:["🗺 Choose Level","🗺 選擇關卡"]
+  };
+  Object.entries(mapText).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.textContent=en?v[0]:v[1]});
+  const homeTitle=document.getElementById("homeTitle");
+  if(homeTitle)homeTitle.textContent=en?"🌱 Beginner Island":"🌱 新手島";
+  const homeSub=document.getElementById("homeSub");
+  if(homeSub)homeSub.textContent=en?"Characters → Words → Phrases → Idioms → Sentences → World Boss":"認字 → 詞語 → 短語 → 成語 → 造句 → 世界魔王";
+  renderMap();renderDifficultyUI();
+}
+document.getElementById("zhLang").onclick=()=>{lang="zh";localStorage.setItem("f125lang","zh");save();applyFullLanguage()};
+document.getElementById("enLang").onclick=()=>{lang="en";localStorage.setItem("f125lang","en");save();applyFullLanguage()};
+applyFullLanguage();
+save();renderMap()})();</script><div id="simpleLevelSelect" style="display:none;position:fixed;inset:0;background:#07102df5;z-index:500;padding:24px;overflow:auto">
+<div class="card" style="max-width:680px;margin:40px auto">
+<div style="display:flex;justify-content:space-between;align-items:center"><h2 id="simpleLevelTitle">🗺 選擇關卡</h2><button id="simpleLevelClose" class="sec" onclick="window.closeFinnLevelSelect()">✕ 關閉</button></div>
+<p id="simpleLevelHelp">直接選擇要練習的內容：</p>
+<div id="simpleLevelButtons" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+</div></div><div id="startMenu" style="display:none;position:fixed;inset:0;background:#000c;z-index:200;align-items:center;justify-content:center;padding:20px">
+<div class="card" style="max-width:650px;width:100%;margin:0">
+<h2 style="text-align:center">今天要怎麼開始？</h2>
+<div style="display:grid;gap:12px">
+<button class="btn" onclick="window.finnRestart()">🌱 重新開始 / START OVER</button>
+<button class="sec" onclick="window.finnContinue()">▶ 繼續學習 / CONTINUE</button>
+<button class="sec" onclick="window.openFinnLevelSelect()">🗺 選擇關卡 / CHOOSE LEVEL</button>
+<button class="sec" onclick="document.getElementById('startMenu').style.display='none'">✕ 返回</button>
+</div><div id="levelChoices" style="display:none;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px"></div>
+</div></div>
+<script>
+(function(){
+  if (!("serviceWorker" in navigator)) return;
+  window.addEventListener("load", async function(){
+    try {
+      const flag = "finn_sw_migrated_136";
+      if (!localStorage.getItem(flag)) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map(r => r.unregister()));
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+        localStorage.setItem(flag, "1");
+      }
+      const reg = await navigator.serviceWorker.register("./service-worker.js?v=136");
+      reg.update();
+      let reloading = false;
+      navigator.serviceWorker.addEventListener("controllerchange", function(){
+        if (reloading) return;
+        reloading = true;
+        location.reload();
+      });
+    } catch(e) { console.warn("SW update skipped", e); }
+  });
+})();
+</script>
+<script>
+(function(){
+const levelNamesZH=["1 · 認字","2 · 名詞／詞語","3 · 短語","4 · 成語","5 · 造句","6 · 中文理解","7 · 世界魔王"];const levelNamesEN=["1 · Characters","2 · Words","3 · Phrases","4 · Idioms","5 · Sentences","6 · Chinese Comprehension","7 · World Boss"];
+window.openFinnLevelSelect=function(){
+  const box=document.getElementById("simpleLevelButtons");
+  box.innerHTML="";
+  const names=(window.finnUILang==="en"?levelNamesEN:levelNamesZH);
+  document.getElementById("simpleLevelTitle").textContent=window.finnUILang==="en"?"🗺 Choose Level":"🗺 選擇關卡";
+  document.getElementById("simpleLevelClose").textContent=window.finnUILang==="en"?"✕ Close":"✕ 關閉";
+  document.getElementById("simpleLevelHelp").textContent=window.finnUILang==="en"?"Choose what you want to practice:":"直接選擇要練習的內容：";
+  names.forEach((name,i)=>{
+    const b=document.createElement("button");
+    b.className=i===0?"btn":"sec";
+    b.textContent=name;
+    b.onclick=function(){
+      document.getElementById("simpleLevelSelect").style.display="none";
+      const sm=document.getElementById("startMenu"); if(sm)sm.style.display="none";
+      window.finnStartSelectedLevel(i);
+    };
+    box.appendChild(b);
+  });
+  document.getElementById("simpleLevelSelect").style.display="block";
+};
+window.closeFinnLevelSelect=function(){document.getElementById("simpleLevelSelect").style.display="none"};
+})();
+</script></body></html>

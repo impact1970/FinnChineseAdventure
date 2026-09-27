@@ -1,0 +1,16 @@
+V17.6 HARDER START + BETTER ENGLISH VOICE
+
+Changes:
+- Level 1 starts harder: mixed common/school/action characters instead of only easiest characters.
+- Word Level 1 starts from a later/harder portion of the 800-word bank.
+- Questions per difficulty: 12 / 15 / 18 / 21 / 24.
+- More answer choices from the beginning.
+- Falling reaction timing is faster.
+- No-repeat behavior from V17.5 retained.
+- Level 3+ typo, longer sentence and reading-comprehension challenges retained.
+- English TTS now explicitly selects an en-US voice when available.
+- Prefers native Apple/US voices such as Samantha/Ava/Allison/Nicky/Aaron/Alex.
+- All-caps English prompts are normalized before speech to avoid letter-by-letter / unnatural rendering.
+- Normal English speed tuned to 0.96 for clearer native pronunciation.
+- Chinese normal speed stays around 1.04.
+- Local test only; not deployed.

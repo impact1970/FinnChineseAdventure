@@ -1,0 +1,59 @@
+錢寶中文大冒險 — TestFlight / Xcode 交付包 V17.6
+
+給 Nelson 上傳 TestFlight 使用。
+
+【正式 Web App】
+https://finn-chinese-adventure.vercel.app/
+
+【目前 Web 正式版】
+V17.6
+- Level 1 起始難度提高
+- 題數 12 / 15 / 18 / 21 / 24
+- 800 詞彙
+- 同輪不重複
+- Level 3+ 找錯字、長造句、閱讀理解
+- 慢 / 正常 / 快速語速
+- 英文優先使用 en-US 語音
+
+【iOS 專案設定】
+App 名稱：錢寶中文大冒險
+Bundle Identifier：com.stormvision.finnchinese
+Version：1.0
+Build：1
+Deployment Target：iOS 15.0
+支援：iPhone + iPad
+Developer Team：StormVision Creative Co., Ltd.
+Team ID：V67X2ZT27D
+
+【重要】
+此 iOS App 是 SwiftUI + WKWebView 外殼，主要直接載入：
+https://finn-chinese-adventure.vercel.app/
+
+因此未來如果只是更新題庫、關卡、文字、語音邏輯等 Web 內容，
+通常不需要每次重新送 TestFlight；App 重新開啟即可讀取線上最新版。
+
+【Nelson 上傳步驟】
+1. 解壓縮整包。
+2. 用目前可上傳 App Store Connect 的新版 Xcode 開啟：
+   FinnChineseAdventure.xcodeproj
+   或雙擊：NELSON-打開Xcode.command
+3. TARGETS → FinnChineseAdventure → Signing & Capabilities。
+4. Team 選 StormVision Creative Co., Ltd.
+5. 確認 Bundle Identifier：
+   com.stormvision.finnchinese
+6. Version 維持 1.0。
+7. Build：
+   - 如果 App Store Connect 尚未出現 Build 1，可維持 1。
+   - 如果 Build 1 已經使用過，請改為 2 或其他未使用號碼。
+8. Destination 選 Any iOS Device (arm64)。
+9. Product → Archive。
+10. Archive 完成後：
+    Distribute App → App Store Connect → Upload。
+11. 到 App Store Connect → TestFlight 等待 Processing。
+12. Processing 完成後加入 Internal Testing 測試人員。
+
+【不要做】
+- 不要重新建立 Bundle ID。
+- 不要建立另一個 App Store Connect App。
+- 使用現有的「錢寶中文大冒險」。
+- 爸爸後台不包含在 iOS App 內。

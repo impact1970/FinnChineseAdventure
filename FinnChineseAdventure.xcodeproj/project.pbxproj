@@ -1,0 +1,30 @@
+// !$*UTF8*$!
+{
+ archiveVersion = 1;
+ classes = {};
+ objectVersion = 56;
+ objects = {
+  A1 = {isa = PBXProject; attributes = {LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; TargetAttributes = {T1 = {CreatedOnToolsVersion = 16.0;};};}; buildConfigurationList = PCL; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = G0; productRefGroup = PG; projectDirPath = ""; projectRoot = ""; targets = (T1);};
+  G0 = {isa = PBXGroup; children = (G1, PG); sourceTree = "<group>";};
+  G1 = {isa = PBXGroup; children = (F1,F2,F3,F4,F5); path = FinnChineseAdventure; sourceTree = "<group>";};
+  PG = {isa = PBXGroup; children = (PR); name = Products; sourceTree = "<group>";};
+  F1 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinnChineseAdventureApp.swift; sourceTree = "<group>";};
+  F2 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>";};
+  F3 = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>";};
+  F4 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>";};
+  F5 = {isa = PBXFileReference; lastKnownFileType = folder; path = Web; sourceTree = "<group>";};
+  PR = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "錢寶中文大冒險.app"; sourceTree = BUILT_PRODUCTS_DIR;};
+  B1 = {isa = PBXBuildFile; fileRef = F1;}; B2 = {isa = PBXBuildFile; fileRef = F2;}; B4 = {isa = PBXBuildFile; fileRef = F4;}; B5 = {isa = PBXBuildFile; fileRef = F5;};
+  SP = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B1,B2); runOnlyForDeploymentPostprocessing = 0;};
+  RP = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (B4,B5); runOnlyForDeploymentPostprocessing = 0;};
+  FP = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;};
+  T1 = {isa = PBXNativeTarget; buildConfigurationList = TCL; buildPhases = (SP,FP,RP); buildRules = (); dependencies = (); name = FinnChineseAdventure; productName = FinnChineseAdventure; productReference = PR; productType = "com.apple.product-type.application";};
+  PCL = {isa = XCConfigurationList; buildConfigurations = (PD,PRL); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;};
+  TCL = {isa = XCConfigurationList; buildConfigurations = (TD,TRL); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;};
+  PD = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos;}; name = Debug;};
+  PRL = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos;}; name = Release;};
+  TD = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = V67X2ZT27D; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = FinnChineseAdventure/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 15.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.stormvision.finnchinese; PRODUCT_NAME = "錢寶中文大冒險"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2";}; name = Debug;};
+  TRL = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = V67X2ZT27D; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = FinnChineseAdventure/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 15.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.stormvision.finnchinese; PRODUCT_NAME = "錢寶中文大冒險"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2";}; name = Release;};
+ };
+ rootObject = A1;
+}
